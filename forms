@@ -1,0 +1,17 @@
+<h6> version 0.0.1</h6>
+
+<h1 align=center>t1a03-forms-Armaan.html</h1>
+<h3><font color=green> proving that you can use: forms 2023</font></h3><br>
+
+the following are all form elements (add to them) :<br>
+<form>
+
+first name :<input type=text id="mytext01" value="Armaan"><br>
+checkbox:<br>
+beef:<input type=checkbox><br>
+veggy: <input type=checkbox><br>
+Radio buttons:<br>
+95.4 <input type=radio name="myRad01" value=""><br>
+101 <input type=radio name="myRad01" value="><br>
+
+hidden
