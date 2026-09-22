@@ -1,0 +1,43 @@
+<html>
+<head>
+  <style></style>
+  <script></script>
+  <meta></meta>
+</head>
+<body bgcolor=yellow>
+<h6>version 0.0.1</h6>
+<h1> align=center >t1a02-list-table-armaan</h1>
+
+<h3>Tables</h3>
+<table border=1>
+<tr><td>A</td><td>b</td></tr>
+<tr><td>1</td><td>2</td></tr>
+</table><br>
+
+you make a 3x4 table about....
+For high marks make a borderless table with links and images about?
+
+<h3>lists</h3>
+<ol> an ordered list of planets
+<li>mercury
+<li>earth
+</ol>
+
+<h3>lists</h3>
+<ol> an extra list of animals
+<li>dog
+<li>cow
+<li>pig
+<li>lion
+<li>tiger
+<li>cat
+</ol>
+
+<ul> an unordered list ofdogs
+<li>pug
+<li>poodle
+</ul>
+
+finish the above lists and then make lists inside of lists
+</body>
+</html>
