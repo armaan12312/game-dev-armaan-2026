@@ -1,0 +1,25 @@
+<script>
+
+  function myexamplefuncation(){
+    let myin01 = parseint(document.getelementbyid('mytext01').value)
+    let mysum = myin01 + myin01 
+    let myreply = myin01 + ' + '+ myin01 + ' = ' + mysum
+    return myreply
+  }
+</script>
+
+<h2> align=center>t1a09-functions-by-armaan.html</h2>
+
+<a href="https://ww.w3schools.com/js/js_functions.asp">goodreference to javascript functions</a><br>
+
+functions are used to sensibly organize code. Then they are "called" elsewhere.
+information can also be passed to functions (that's more advanced).
+
+<h4>example working code</h4>
+
+<input type=text id ="mytext01" value="3"><br>
+
+<input type=button value="function example" onclick="{
+  document.getelementbyid('myDiv01').innerHTML = myexamplefunction()
+  }">
+  <div id="myDiv01">...</div>
