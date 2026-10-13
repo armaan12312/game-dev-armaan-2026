@@ -1,25 +1,232 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t1a09-functions-by-armaan</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  function myexamplefuncation(){
-    let myin01 = parseint(document.getelementbyid('mytext01').value)
-    let mysum = myin01 + myin01 
-    let myreply = myin01 + ' + '+ myin01 + ' = ' + mysum
-    return myreply
-  }
-</script>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            /* Warm Yellow / Amber Theme Background */
+            background: linear-gradient(135deg, #1c1508 0%, #2e220c 40%, #4d380f 100%);
+            background-attachment: fixed;
+            color: #fef3c7;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-<h2> align=center>t1a09-functions-by-armaan.html</h2>
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(46, 34, 12, 0.6);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            border-radius: 14px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(28, 21, 8, 0.6);
+        }
 
-<a href="https://ww.w3schools.com/js/js_functions.asp">goodreference to javascript functions</a><br>
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fffbeb;
+            margin-bottom: 15px;
+            text-align: center;
+        }
 
-functions are used to sensibly organize code. Then they are "called" elsewhere.
-information can also be passed to functions (that's more advanced).
+        h4 {
+            font-size: 1.1rem;
+            color: #fcd34d;
+            margin: 25px 0 10px 0;
+            border-left: 3px solid #fbbf24;
+            padding-left: 10px;
+        }
 
-<h4>example working code</h4>
+        a {
+            color: #fbbf24;
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-<input type=text id ="mytext01" value="3"><br>
+        a:hover {
+            text-decoration: underline;
+        }
 
-<input type=button value="function example" onclick="{
-  document.getelementbyid('myDiv01').innerHTML = myexamplefunction()
-  }">
-  <div id="myDiv01">...</div>
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .row .input-group {
+            flex: 1;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #fde68a;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"] {
+            background: rgba(28, 21, 8, 0.7);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            padding: 8px 12px;
+            font-family: 'Fira Code', monospace;
+            width: 100%;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #fbbf24;
+            box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+        }
+
+        input[type="button"] {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 5px;
+        }
+
+        input[type="button"]:hover {
+            background: #f59e0b;
+            transform: translateY(-1px);
+        }
+
+        .result-box {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: rgba(28, 21, 8, 0.8);
+            border: 1px dashed rgba(251, 191, 36, 0.4);
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            color: #fde68a;
+        }
+    </style>
+
+    <script>
+      // Function 1: Original addition example
+      function myexamplefunction(){
+        let myin01 = parseInt(document.getElementById('mytext01').value) || 0;
+        let mysum = myin01 + myin01; 
+        let myreply = myin01 + ' + ' + myin01 + ' = ' + mysum;
+        return myreply;
+      }
+
+      // Function 2: Minus / Subtraction function with two inputs
+      function calculateMinus(){
+        let num1 = parseFloat(document.getElementById('mytextMinus1').value) || 0;
+        let num2 = parseFloat(document.getElementById('mytextMinus2').value) || 0;
+        let diff = num1 - num2;
+        return num1 + ' - ' + num2 + ' = ' + diff;
+      }
+
+      // Function 3: Square / Multiplication function
+      function calculateSquare(){
+        let num = parseFloat(document.getElementById('mytext02').value) || 0;
+        let squared = num * num;
+        return "The square of " + num + " is " + squared;
+      }
+
+      // Function 4: Uppercase Text function
+      function makeUppercase(){
+        let text = document.getElementById('mytext03').value;
+        return "Uppercase result: " + text.toUpperCase();
+      }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h1 align="center">t1a09-functions-by-armaan.html</h1>
+
+    <p>
+        Reference link: <a href="https://www.w3schools.com/js/js_functions.asp" target="_blank">good reference to javascript functions</a>
+    </p>
+
+    <p>
+        Functions are used to sensibly organize code. Then they are "called" elsewhere.<br>
+        Information can also be passed to functions (that's more advanced).
+    </p>
+
+    <!-- Function 1 -->
+    <h4>1. Addition Function Example</h4>
+    <div class="input-group">
+        <label>Enter a number:</label>
+        <input type="text" id="mytext01" value="3">
+    </div>
+    <input type="button" value="Run Addition Function" onclick="{
+        document.getElementById('myDiv01').innerHTML = myexamplefunction();
+    }">
+    <div id="myDiv01" class="result-box">...</div>
+
+    <!-- Function 2 (New Minus Function) -->
+    <h4>2. Minus / Subtraction Function</h4>
+    <div class="row">
+        <div class="input-group">
+            <label>Number 1:</label>
+            <input type="text" id="mytextMinus1" value="10">
+        </div>
+        <div class="input-group">
+            <label>Number 2:</label>
+            <input type="text" id="mytextMinus2" value="4">
+        </div>
+    </div>
+    <input type="button" value="Run Minus Function" onclick="{
+        document.getElementById('myDivMinus').innerHTML = calculateMinus();
+    }">
+    <div id="myDivMinus" class="result-box">...</div>
+
+    <!-- Function 3 -->
+    <h4>3. Square Calculator Function</h4>
+    <div class="input-group">
+        <label>Enter a number to square:</label>
+        <input type="text" id="mytext02" value="5">
+    </div>
+    <input type="button" value="Run Square Function" onclick="{
+        document.getElementById('myDiv02').innerHTML = calculateSquare();
+    }">
+    <div id="myDiv02" class="result-box">...</div>
+
+    <!-- Function 4 -->
+    <h4>4. Uppercase Text Function</h4>
+    <div class="input-group">
+        <label>Enter some text:</label>
+        <input type="text" id="mytext03" value="hello game dev">
+    </div>
+    <input type="button" value="Run Uppercase Function" onclick="{
+        document.getElementById('myDiv03').innerHTML = makeUppercase();
+    }">
+    <div id="myDiv03" class="result-box">...</div>
+</div>
+
+</body>
+</html>
