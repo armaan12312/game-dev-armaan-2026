@@ -1,43 +1,200 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <style></style>
-  <script></script>
-  <meta></meta>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>t1a02-list-table-armaan</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      /* Immersive Forest Background */
+      background: linear-gradient(135deg, #061c14 0%, #0d2c20 40%, #1b4d3e 100%);
+      background-attachment: fixed;
+      color: #e2f1ec;
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Forest Canopy Lighting Effect */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+          radial-gradient(circle at 15% 20%, rgba(74, 222, 128, 0.12) 0%, transparent 30%),
+          radial-gradient(circle at 85% 80%, rgba(45, 212, 191, 0.1) 0%, transparent 35%);
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 750px;
+      z-index: 1;
+    }
+
+    h6 {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: #86efac;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #f0fdf4;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 0 4px 20px rgba(6, 28, 20, 0.6);
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #a7f3d0;
+      margin: 30px 0 12px 0;
+      border-left: 3px solid #4ade80;
+      padding-left: 10px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: #cbd5e1;
+    }
+
+    /* Forest Card Wrapper for Sections */
+    .card {
+      background: rgba(13, 44, 32, 0.45);
+      border: 1px solid rgba(74, 222, 128, 0.15);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+      box-shadow: 0 8px 25px rgba(6, 28, 20, 0.3);
+    }
+
+    /* Styled Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background: rgba(6, 28, 20, 0.3);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(74, 222, 128, 0.1);
+    }
+
+    th {
+      background: rgba(27, 77, 62, 0.6);
+      color: #a7f3d0;
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Borderless Links/Images Table */
+    .borderless-table td {
+      border: none;
+      background: transparent;
+      text-align: center;
+    }
+
+    .borderless-table a {
+      color: #86efac;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .borderless-table a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .borderless-table img {
+      border-radius: 8px;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      margin-bottom: 6px;
+    }
+
+    /* Lists Styling */
+    ol, ul {
+      padding-left: 25px;
+      line-height: 1.8;
+      color: #e2f1ec;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    /* Nested Lists spacing */
+    ul ul, ol ol, ul ol, ol ul {
+      margin-top: 5px;
+    }
+  </style>
 </head>
-<body bgcolor=yellow>
-<h6>version 0.0.1</h6>
-<h1> align=center >t1a02-list-table-armaan</h1>
+<body>
+<div class="container">
+  <h6>version 0.0.2</h6>
+  <h1>t1a02-list-table-armaan</h1>
 
-<h3>Tables</h3>
-<table border=1>
-<tr><td>A</td><td>b</td></tr>
-<tr><td>1</td><td>2</td></tr>
-</table><br>
+  <div class="card">
+    <h3>Tables</h3>
+    <p><strong>A 3x4 table about Video Games:</strong></p>
+    <table border="1">
+      <tr>
+        <th>Game Title</th>
+        <th>Genre</th>
+        <th>Platform</th>
+        <th>Release Year</th>
+      </tr>
+      <tr>
+        <td>Minecraft</td>
+        <td>Sandbox</td>
+        <td>PC / Console</td>
+        <td>2011</td>
+      </tr>
+      <tr>
+        <td>Valorant</td>
+        <td>Tactical Shooter</td>
+        <td>PC</td>
+        <td>2020</td>
+      </tr>
+      <tr>
+        <td>Terraria</td>
+        <td>Action-Adventure</td>
+        <td>Multiplatform</td>
+        <td>2011</td>
+      </tr>
+    </table>
 
-you make a 3x4 table about....
-For high marks make a borderless table with links and images about?
-
-<h3>lists</h3>
-<ol> an ordered list of planets
-<li>mercury
-<li>earth
-</ol>
-
-<h3>lists</h3>
-<ol> an extra list of animals
-<li>dog
-<li>cow
-<li>pig
-<li>lion
-<li>tiger
-<li>cat
-</ol>
-
-<ul> an unordered list ofdogs
-<li>pug
-<li>poodle
-</ul>
-
-finish the above lists and then make lists inside of lists
-</body>
-</html>
+    <p style="margin-top: 20px;"><strong>Borderless table with links and images (High Marks section):</strong></p>
+    <table class="borderless-table" border="0" cellpadding="10">
+      <tr>
+        <td>
+          <a href="
