@@ -1,39 +1,152 @@
-<body
-  Version 0.0.1</br>
-  <h1 align=center >T1A04 CSS by Armaan 2023</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T1A04 CSS by Armaan</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-Reference link
-  <a href="https://www.w3schools.com/cssref/default.asp">w3schools</a><br>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            /* Deep Purple Theme Background */
+            background: linear-gradient(135deg, #140824 0%, #220942 40%, #3b116b 100%);
+            background-attachment: fixed;
+            color: #f3e8ff;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-  Cascading Style Sheets (CSS) is properly done with a .css file listing all css 
-  commands for your website<br>
-  Another way to do CSS is using the style tag at the top head part of a webpage<br>
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(34, 9, 66, 0.5);
+            border: 1px solid rgba(192, 132, 252, 0.2);
+            border-radius: 14px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(20, 8, 36, 0.6);
+        }
 
-  Here is typical in document style
-  <pre>
-    b{
+        .version {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #d8b4fe;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #faf5ff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        a {
+            color: #e879f9;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p, body > br + text, body {
+            line-height: 1.6;
+        }
+
+        pre {
+            background: rgba(20, 8, 36, 0.7);
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Fira Code', monospace;
+            color: #4ade80;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        input[type="button"] {
+            background: #9333ea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 10px 0;
+            transition: background 0.2s;
+        }
+
+        input[type="button"]:hover {
+            background: #a855f7;
+        }
+
+        textarea {
+            background: rgba(20, 8, 36, 0.6);
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            border-radius: 6px;
+            color: #f3e8ff;
+            padding: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            resize: both;
+        }
+
+        .italic-box {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .img-preview {
+            border-radius: 200px;
+            border: 3px solid rgba(192, 132, 252, 0.4);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="version">Version 0.0.1</div>
+    <h1 align="center">T1A04 CSS by Armaan 2023</h1>
+
+    <p>
+        Reference link: <a href="https://www.w3schools.com/cssref/default.asp" target="_blank">w3schools</a>
+    </p>
+    <br>
+
+    <p>
+        Cascading Style Sheets (CSS) is properly done with a .css file listing all css commands for your website.<br>
+        Another way to do CSS is using the style tag at the top head part of a webpage.
+    </p>
+    <br>
+
+    <p>Here is typical in document style:</p>
+    <pre>
+b {
     color: #00ff00;
-    }
-  </pre><br>
+}
+    </pre>
+    <br>
 
-  i do css inline inside the tag it overpowers all other methods<br><br>
+    <p>I do css inline inside the tag it overpowers all other methods.</p><br>
 
-  <i > this is Italic</i><br>
+    <i>this is Italic</i><br><br>
 
-  <i id="myB1" style="color:#00ff00; background-color:blue; "> this is italic with CSS
-    Background-color and main color</i>
-<input type=button value=change onclick="{
-  document.getelementByid('myb1').style.color = 'red'
-  document.getelementVyid('myB1').style.backgroundcolor = 'yellow'
-  }"><br><br>
-
-  <textarea style=" background-image: url('myimgnew.jpg'); positon:relative; left:0;
-    top:0; width:200; height:50; ">
-    advanced if you move this textarea
-  </textarea><br><br>
-
-  <br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-  <img src="myimage01.jpg" width=200 style=" border-radius:200px">
-
-  </body>
+    <i id="myB1" class="italic-box" style="color:#00ff00; background-color:blue;">this is italic with CSS Background-color and main color</i>
+    <br>
+    <input type="button" value="change" onclick="{
