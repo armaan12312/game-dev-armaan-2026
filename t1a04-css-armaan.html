@@ -63,8 +63,9 @@
             text-decoration: underline;
         }
 
-        p, body > br + text, body {
+        p {
             line-height: 1.6;
+            margin-bottom: 12px;
         }
 
         pre {
@@ -87,11 +88,12 @@
             cursor: pointer;
             font-weight: 600;
             margin: 10px 0;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
         input[type="button"]:hover {
             background: #a855f7;
+            transform: translateY(-1px);
         }
 
         textarea {
@@ -106,34 +108,67 @@
 
         .italic-box {
             display: inline-block;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 4px;
             margin: 10px 0;
+        }
+
+        .extra-css-card {
+            background: rgba(147, 51, 234, 0.15);
+            border: 1px dashed rgba(192, 132, 252, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .glow-text {
+            color: #f472b6;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(244, 114, 182, 0.6);
         }
 
         .img-preview {
             border-radius: 200px;
             border: 3px solid rgba(192, 132, 252, 0.4);
-            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
+            display: block;
+            margin: 20px auto 15px auto;
+        }
+
+        /* --- VERY SIMPLE NEW CSS STUFF --- */
+        .simple-box {
+            background-color: #2e1065;
+            color: #ffffff;
+            padding: 12px;
+            margin-top: 15px;
+            border: 2px solid #c084fc;
+            text-align: center;
+        }
+
+        .simple-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #d8b4fe;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="version">Version 0.0.1</div>
-    <h1 align="center">T1A04 CSS by Armaan 2023</h1>
+    <div class="version">Version 0.0.3</div>
+    <h1 align="center">T1A04 CSS by Armaan 2026
+    </h1>
 
     <p>
         Reference link: <a href="https://www.w3schools.com/cssref/default.asp" target="_blank">w3schools</a>
     </p>
-    <br>
 
     <p>
         Cascading Style Sheets (CSS) is properly done with a .css file listing all css commands for your website.<br>
         Another way to do CSS is using the style tag at the top head part of a webpage.
     </p>
-    <br>
 
     <p>Here is typical in document style:</p>
     <pre>
@@ -141,12 +176,42 @@ b {
     color: #00ff00;
 }
     </pre>
-    <br>
 
-    <p>I do css inline inside the tag it overpowers all other methods.</p><br>
+    <p>I do css inline inside the tag it overpowers all other methods.</p>
 
-    <i>this is Italic</i><br><br>
+    <i>this is Italic</i><br>
 
     <i id="myB1" class="italic-box" style="color:#00ff00; background-color:blue;">this is italic with CSS Background-color and main color</i>
     <br>
     <input type="button" value="change" onclick="{
+        document.getElementById('myB1').style.color = 'red';
+        document.getElementById('myB1').style.backgroundColor = 'yellow';
+    }"><br><br>
+
+    <textarea style="background-image: url('myimgnew.jpg'); position: relative; left: 0; top: 0; width: 220px; height: 60px;">
+        advanced if you move this textarea
+    </textarea><br><br>
+
+    <!-- Additional CSS Showcase -->
+    <div class="extra-css-card">
+        <p>✨ <strong>Extra CSS Properties Showcase:</strong></p>
+        <span class="glow-text">This text uses CSS text-shadow and glow effects!</span>
+    </div>
+
+    <!-- Image Section -->
+    <div style="text-align: center;">
+        <img src="https://picsum.photos/seed/armaan-gamedev/200/200" width="200" class="img-preview" alt="Armaan GameDev Image">
+    </div>
+
+    <!-- Extended Downwards with Very Simple CSS -->
+    <div class="simple-box">
+        This is a simple box added with basic CSS background, padding, and border!
+    </div>
+
+    <div class="simple-footer">
+        End of page - Thanks for checking out my CSS assignment!
+    </div>
+</div>
+
+</body>
+</html>
