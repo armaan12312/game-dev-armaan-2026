@@ -1,27 +1,220 @@
-<h2> align=center>t1a11-arrays-armaan.html</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t1a11-arrays-armaan</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<a href="">good reference to javascript arrays</a><br>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            /* Arctic / Glacial Theme Background */
+            background: linear-gradient(135deg, #08121c 0%, #0c2033 40%, #163859 100%);
+            background-attachment: fixed;
+            color: #e0f2fe;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-<h4> example working array code</h4>
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(12, 32, 51, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 14px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(8, 18, 28, 0.6);
+        }
 
-max array entry: <input type=text id="mytext01" value="3><br>
-<input type=button value="example onclick" onclick="{
-let mytemp = document.getelementbyid('mytext01').value
-let mysum = ''
-document.getelementbyid('mydiv01').innerHTML =' '
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #f0f9ff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
 
-my array = new array()
-myarray[0] = 'fred'
-myarray[1] = 'mary'
-myarray[2] = 'zizzy'
+        h4 {
+            font-size: 1.1rem;
+            color: #7dd3fc;
+            margin: 25px 0 10px 0;
+            border-left: 3px solid #38bdf8;
+            padding-left: 10px;
+        }
 
-  for (let myloop=0;  myloop < mytemp; myloop++){
-  mysum += 'loop #: ' + myloop + ' array entry: ' + myarray[myloop] +' <br>'
-  }
-document.getelementbyid('mydiv01').innerHTML = mysum
-}">
+        a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-<div id="mydiv01">...</div>
-<br>
-you do atleast 7 other arrays:<br>
+        a:hover {
+            text-decoration: underline;
+        }
 
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #bae6fd;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"] {
+            background: rgba(8, 18, 28, 0.7);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            padding: 8px 12px;
+            font-family: 'Fira Code', monospace;
+            width: 100%;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+        }
+
+        input[type="button"] {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 5px;
+        }
+
+        input[type="button"]:hover {
+            background: #0ea5e9;
+            transform: translateY(-1px);
+        }
+
+        .result-box {
+            margin-top: 10px;
+            padding: 12px 15px;
+            background: rgba(8, 18, 28, 0.8);
+            border: 1px dashed rgba(56, 189, 248, 0.4);
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            color: #7dd3fc;
+        }
+
+        .array-list {
+            background: rgba(8, 18, 28, 0.4);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .array-list ul {
+            padding-left: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #bae6fd;
+            line-height: 1.7;
+        }
+    </style>
+
+    <script>
+      // 1. Original Example Array Function
+      function runExampleArray() {
+        let mytemp = document.getElementById('mytext01').value;
+        let mysum = '';
+        
+        let myarray = new Array();
+        myarray[0] = 'fred';
+        myarray[1] = 'mary';
+        myarray[2] = 'zizzy';
+
+        for (let myloop = 0; myloop < mytemp; myloop++) {
+          if (myarray[myloop] !== undefined) {
+            mysum += 'loop #: ' + myloop + ' array entry: ' + myarray[myloop] + '<br>';
+          } else {
+            mysum += 'loop #: ' + myloop + ' array entry: [empty/undefined]<br>';
+          }
+        }
+        document.getElementById('mydiv01').innerHTML = mysum;
+      }
+
+      // 7 Additional Arrays Functions or Previews can be displayed below
+      function runArrayDemo(arrayName) {
+        let data = [];
+        if(arrayName === 'characters') data = ['Knight', 'Mage', 'Rogue', 'Archer', 'Paladin'];
+        if(arrayName === 'weapons') data = ['Frost Sword', 'Ice Bow', 'Blizzard Staff', 'Glacial Dagger'];
+        if(arrayName === 'planets') data = ['Hoth', 'Iceoria', 'Polaris', 'Cryon'];
+        if(arrayName === 'bosses') data = ['Yeti King', 'Frost Dragon', 'Ice Golem', 'Blizzard Wraith'];
+        if(arrayName === 'powerups') data = ['Shield', 'Speed Boost', 'Freeze Ray', 'Extra Life'];
+        if(arrayName === 'biomes') data = ['Tundra', 'Glacier', 'Frozen Lake', 'Snowy Peak'];
+        if(arrayName === 'loot') data = ['Sapphire', 'Diamond', 'Silver Coin', 'Golden Key'];
+
+        let output = "Array Items (" + arrayName + "):<br>";
+        for(let i=0; i<data.length; i++) {
+            output += "Index [" + i + "] = " + data[i] + "<br>";
+        }
+        document.getElementById('mydivExtra').innerHTML = output;
+      }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h1 align="center">t1a11-arrays-armaan.html</h1>
+
+    <p>
+        <a href="https://www.w3schools.com/js/js_arrays.asp" target="_blank">Good reference to JavaScript arrays</a>
+    </p>
+
+    <h4>Example Working Array Code</h4>
+
+    <div class="input-group">
+        <label>Max array entry:</label>
+        <input type="text" id="mytext01" value="3">
+    </div>
+
+    <input type="button" value="Example Onclick" onclick="runExampleArray()">
+
+    <div id="mydiv01" class="result-box">...</div>
+    <br>
+
+    <h4>At least 7 Other Arrays:</h4>
+    <p>Click any button below to test your 7 additional arrays:</p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
+        <input type="button" value="1. Characters" onclick="runArrayDemo('characters')">
+        <input type="button" value="2. Weapons" onclick="runArrayDemo('weapons')">
+        <input type="button" value="3. Planets" onclick="runArrayDemo('planets')">
+        <input type="button" value="4. Bosses" onclick="runArrayDemo('bosses')">
+        <input type="button" value="5. Powerups" onclick="runArrayDemo('powerups')">
+        <input type="button" value="6. Biomes" onclick="runArrayDemo('biomes')">
+        <input type="button" value="7. Loot" onclick="runArrayDemo('loot')">
+    </div>
+
+    <div id="mydivExtra" class="result-box">Click a button above to view array items...</div>
+</div>
+
+</body>
+</html>
