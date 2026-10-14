@@ -1,0 +1,26 @@
+<!doctype html!>
+<html lang="en"
+<head>
+  <meta charset="utf-8">
+  <title>t1a06-proper-and-varibles-armaan.html</title>
+  <style>
+    b { color:red; }
+  </style>
+<script>
+  function sayHello() {
+  mynum = 3;
+  mystring = ' hello ';
+  myfloat = 17.5;
+  mybool = true;
+  myout = document.getelementbyid('mydiv');
+  myout.innerhtml = mynum + mystring + myfloat + ', ' + mybool;
+if (mybool) {myout.innerhtml += ', WOW';}
+}
+</script>
+</head>
+<body>
+  <p>this is <b>bold</b> text.</p>
+<button onclick="sayhello()">click me</button>
+<div id=""mydiv01">...</div>
+</body>
+</html>
