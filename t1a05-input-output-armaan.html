@@ -1,22 +1,157 @@
-<h2 align=center>t1a05-input-output-armaan.html</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>t1a05-input-output-armaan.html</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8ff78, #78ffd6);
+            color: #2d3436;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            width: 100%;
+        }
+        h2 {
+            margin-top: 0;
+            color: #00b894;
+            text-align: center;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 8px 12px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #dfe6e9;
+            border-radius: 4px;
+            width: calc(100% - 24px);
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        .input-group div {
+            flex: 1;
+        }
+        button {
+            background-color: #00b894;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #55efc4;
+            color: #2d3436;
+        }
+        pre {
+            background: #f1f2f6;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        #outputDiv {
+            background: #f8f9fa;
+            border: 1px solid #dfe6e9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            min-height: 60px;
+            max-height: 250px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
 
-<a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp">good referance to input output
-javascript innerHTML value by Armaan</a>
+<div class="container">
+    <h2>t1a05-input-output-armaan.html</h2>
+    
+    <p><a href="https://www.w3schools.com/js/js_htmldom.asp" target="_blank">Good reference to JavaScript DOM & I/O</a></p>
+    
+    <h4>Example Input & Output Code</h4>
+    <pre>
+let myName = document.getElementById('nameInput').value;
+document.getElementById('outputDiv').innerHTML = "Hello " + myName;
+    </pre>
+    
+    <h4>Interactive Input Controls</h4>
+    
+    <label for="nameInput">Enter your Name:</label>
+    <input id="nameInput" type="text" value="Armaan">
 
-<h4> example input output code<h4>
-<pre>
-myin01 = document.getelementbyid('mydiv01').innerHTMl = 'hi'
+    <div class="input-group">
+        <div>
+            <label for="num1Input">Number 1:</label>
+            <input id="num1Input" type="number" value="10">
+        </div>
+        <div>
+            <label for="num2Input">Number 2:</label>
+            <input id="num2Input" type="number" value="5">
+        </div>
+    </div>
+    
+    <!-- Action Buttons for Different I/O Tasks -->
+    <div>
+        <button onclick="sayHello()">1. Greet User</button>
+        <button onclick="addNumbers()">2. Add Numbers</button>
+        <button onclick="calculateEverything()">3. Math Operations</button>
+    </div>
 
-</pre>
-<h4> example working code<h4>
+    <h4>Output Results:</h4>
+    <div id="outputDiv"><span style="color: #00b894; font-family: sans-serif;">Ready for input...</span></div>
+</div>
 
-<input id="mynum01" type=number value="4" ><br>
+<script>
+    // 1. Simple text input & greeting output
+    function sayHello() {
+        let name = document.getElementById('nameInput').value;
+        if (!name) name = "Stranger";
+        
+        let output = "Hello, <strong>" + name + "</strong>! Welcome to your JavaScript input/output page.";
+        document.getElementById('outputDiv').innerHTML = output;
+    }
 
-<input type=button value="myevent" sqauares" onclick="{
-let myin01 = parseFloat(document.getelementbyid('mynum01').value
-let myanswer = myin01 * myin01
-document.getelementbyid('mydiv01').innerhtml = myin01 + = squared = ' + myanswer
-}"><br>
+    // 2. Simple numeric addition (showing string vs number parsing)
+    function addNumbers() {
+        let n1 = parseFloat(document.getElementById('num1Input').value) || 0;
+        let n2 = parseFloat(document.getElementById('num2Input').value) || 0;
+        let sum = n1 + n2;
 
-<div id="mydiv01">...</div>
+        let output = `<strong>Addition Result:</strong><br>${n1} + ${n2} = <span style="color: #00b894; font-size: 1.1em;">${sum}</span>`;
+        document.getElementById('outputDiv').innerHTML = output;
+    }
 
+    // 3. Comprehensive multi-math calculation
+    function calculateEverything() {
+        let n1 = parseFloat(document.getElementById('num1Input').value) || 0;
+        let n2 = parseFloat(document.getElementById('num2Input').value) || 0;
+
+        let output = `<strong>Advanced Math Breakdown:</strong><br>`;
+        output += `Addition (${n1} + ${n2}) = ${n1 + n2}<br>`;
+        output += `Subtraction (${n1} - ${n2}) = ${n1 - n2}<br>`;
+        output += `Multiplication (${n1} * ${n2}) = ${n1 * n2}<br>`;
+        output += `Division (${n1} / ${n2}) = ${n2 !== 0 ? (n1 / n2).toFixed(2) : 'Undefined (cannot divide by zero)'}<br>`;
+        
+        document.getElementById('outputDiv').innerHTML = output;
+    }
+</script>
+
+</body>
+</html>
