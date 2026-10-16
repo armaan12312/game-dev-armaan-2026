@@ -1,22 +1,137 @@
-<h2> align=center>t1a10-events-armaan.html</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>t1a10-events-armaan.html</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: #2d3436;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 650px;
+            width: 100%;
+        }
+        h2 {
+            margin-top: 0;
+            color: #6c5ce7;
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 8px 12px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #dfe6e9;
+            border-radius: 4px;
+            width: calc(100% - 24px);
+        }
+        button {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px;
+            margin-bottom: 15px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #a29bfe;
+        }
+        .interactive-box {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 15px 0;
+            cursor: pointer;
+            border: 2px dashed #b2bec3;
+            transition: all 0.2s;
+        }
+        .interactive-box:hover {
+            border-color: #6c5ce7;
+            background: #eef2f7;
+        }
+        #mydiv01 {
+            background: #f8f9fa;
+            border: 1px solid #dfe6e9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            min-height: 50px;
+            font-family: monospace;
+        }
+        ul.event-list {
+            columns: 2;
+            font-size: 13px;
+            color: #636e72;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
 
-<a href="https://way2tutorial.com/html/html5_events_handler_list.php">
-good reference to htm1 events</a> <br>
+<div class="container">
+    <h2>t1a10-events-armaan.html</h2>
+    
+    <p><a href="https://way2tutorial.com/html/html5_events_handler_list.php" target="_blank">Good reference to HTML5 events</a></p>
+    
+    <p><strong>Events</strong> are HTML triggers that execute JavaScript code when user actions occur.</p>
+    
+    <!-- Input referenced by button -->
+    <label for="mytext01">Type something here:</label>
+    <input id="mytext01" type="text" value="Hello Event World!"><br>
+    
+    <!-- Action Button (onclick) -->
+    <button onclick="document.getElementById('mydiv01').innerHTML = document.getElementById('mytext01').value;">
+        Trigger Input to Output (onclick)
+    </button>
 
-events are html code that activates javascript code 
-<input type=button value="example onclick" onclick="{
-document.getelementbyid('mydiv01').innerhtml = 
-document.getelementbyid('mytext01').value
-}">
+    <!-- Interactive Box (Hover & Double Click) -->
+    <div class="interactive-box" 
+         onmouseover="document.getElementById('mydiv01').innerHTML = 'Mouse Over event triggered!';"
+         onmouseout="document.getElementById('mydiv01').innerHTML = 'Mouse Out event triggered!';"
+         ondblclick="document.getElementById('mydiv01').innerHTML = 'Double Click event triggered! 🎉';">
+        <strong>Hover or Double-Click this box!</strong>
+    </div>
 
-<div id="mydiv01'>...</div>
+    <!-- Focus & Blur Input -->
+    <label for="focusInput">Focus & Blur Test Input:</label>
+    <input id="focusInput" type="text" placeholder="Click inside, then click outside"
+           onfocus="document.getElementById('mydiv01').innerHTML = 'Input gained FOCUS!';"
+           onblur="document.getElementById('mydiv01').innerHTML = 'Input lost focus (BLUR)!';">
 
-<b id="myb02" onmouseout="{
-  document.getelementbyid('myB02').innerhtml = 'this is nice.'
-}"  onmouseover = "{
-document.getelementbyid('myB02').innerhtml = 'this is cool.'
-}"> this is bold</b> <br><br>
+    <h4>Output Results:</h4>
+    <div id="mydiv01">...</div>
 
-you can do at least 8 other events :<br>
-onclick, onDbclick, onchange, onblur, onfocus, ormousemove, ontouch, onkeydown,
-onkeypress, ondragstart, ontoughstart, ontouchend, ontouchmove
+    <h4>Other Supported HTML5 Events:</h4>
+    <ul class="event-list">
+        <li>onclick</li>
+        <li>ondblclick</li>
+        <li>onchange</li>
+        <li>onblur</li>
+        <li>onfocus</li>
+        <li>onmousemove</li>
+        <li>ontouchstart</li>
+        <li>onkeydown</li>
+        <li>onkeypress</li>
+        <li>ondragstart</li>
+        <li>ontouchend</li>
+        <li>ontouchmove</li>
+    </ul>
+</div>
+
+</body>
+</html>
