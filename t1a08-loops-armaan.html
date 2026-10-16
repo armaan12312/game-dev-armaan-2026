@@ -1,37 +1,154 @@
-<h2 align=center>t1a08-loops-armaan.html</h2>
-< href="">good referance to javascript loops</a><br>
-<h4> example input output code</h4>
-<pre>
-for (let myloop = 0; myloop < myMax; myloop++ ){
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>t1a08-loops-armaan.html</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: #2d3436;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+        h2 {
+            margin-top: 0;
+            color: #0984e3;
+            text-align: center;
+        }
+        input[type="number"] {
+            padding: 6px 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #dfe6e9;
+            border-radius: 4px;
+            width: 100px;
+        }
+        button {
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #74b9ff;
+        }
+        pre {
+            background: #f1f2f6;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        #mydiv01 {
+            background: #f8f9fa;
+            border: 1px solid #dfe6e9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            min-height: 60px;
+            max-height: 250px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>t1a08-loops-armaan.html</h2>
+    
+    <p><a href="https://www.w3schools.com/js/js_loop_for.asp" target="_blank">Good reference to JavaScript loops</a></p>
+    
+    <h4>Example Input & Output Code</h4>
+    <pre>
+for (let myloop = 0; myloop &lt; myMax; myloop++ ) {
+    // code block
 }
-</pre>
-  <h4> example working code</h4>
-  max loops: <input id="my" type=number value="4" ><br>
-  weird number: <input id="myweird" type=number value="2" ><br>
+    </pre>
+    
+    <h4>Interactive Loop Controls</h4>
+    <label for="myMaxInput">Max Loops:</label><br>
+    <input id="myMaxInput" type="number" value="10"><br>
+    
+    <label for="myWeirdInput">Weird/Threshold Number:</label><br>
+    <input id="myWeirdInput" type="number" value="3"><br>
+    
+    <!-- Action Buttons for Multiple Loops -->
+    <div>
+        <button onclick="runForLoop()">1. For Loop with Decisions</button>
+        <button onclick="runWhileLoop()">2. While Loop Countdown</button>
+        <button onclick="runNestedLoop()">3. Nested Grid Loop</button>
+    </div>
 
-  <input type=button value="basic for loop with decisions" onclick="{
-let mytemp = ' '
-    let mymax = parseInt<document.getelementbyid('mydiv01').innerhtml = ''
+    <h4>Output Results:</h4>
+    <div id="mydiv01"><span style="color: #0984e3; font-family: sans-serif;">Ready for action...</span></div>
+</div>
 
-    for (let myloop = 0; myloop < myMax; myloop++ ){
-      if (myloop * 2 > myMax){
-        mytemp += ' cool '
-      }
-      mytemp += 'loopnumber
-    } 
-    document.getelementbyid('mydiv01').innerhtml = ''
-    let mytemp = ''
+<script>
+    // 1. Standard For Loop with conditional checks
+    function runForLoop() {
+        let myMax = parseInt(document.getElementById('myMaxInput').value) || 0;
+        let myWeird = parseInt(document.getElementById('myWeirdInput').value) || 1;
+        let myTemp = "";
 
-    let mymax = parseInt(document.getelementbyid('mynum01').value
-
-  for (let myloop = 0; myloop < mymax; myloop++ ){
-      if (myloop % 2 ==0){
-        mytemp += 'even number,'
-      }
-      mytemp += 'loop number: ' + myloop + '<br>'
+        for (let myloop = 0; myloop < myMax; myloop++) {
+            if (myloop % myWeird === 0) {
+                myTemp += "<strong>[Weird Match]</strong> ";
+            }
+            if (myloop * 2 > myMax) {
+                myTemp += "<span style='color: #e17055;'>cool</span> ";
+            }
+            myTemp += "Loop number: " + myloop + "<br>";
+        }
+        document.getElementById('mydiv01').innerHTML = myTemp;
     }
-    document.getelementbyid('mydiv01').innerhtml = mytemp
-  }">
-  <div id="mydiv01"><font color blue>...</font></div>
 
-  
+    // 2. While Loop Countdown
+    function runWhileLoop() {
+        let myMax = parseInt(document.getElementById('myMaxInput').value) || 0;
+        let myTemp = "<strong>While Loop Countdown:</strong><br>";
+        let i = myMax;
+
+        while (i > 0) {
+            myTemp += "Countdown: " + i + "<br>";
+            i--;
+        }
+        document.getElementById('mydiv01').innerHTML = myTemp;
+    }
+
+    // 3. Nested Loop Pattern (Multiplication Grid)
+    function runNestedLoop() {
+        let myMax = parseInt(document.getElementById('myMaxInput').value) || 5;
+        if (myMax > 12) myMax = 12; // cap for clean layout
+        let myTemp = "<strong>Nested Grid Loop (Table):</strong><br>";
+
+        for (let r = 1; r <= myMax; r++) {
+            for (let c = 1; c <= myMax; c++) {
+                myTemp += (r * c) + "\t\t";
+            }
+            myTemp += "<br>";
+        }
+        document.getElementById('mydiv01').innerHTML = myTemp;
+    }
+</script>
+
+</body>
+</html>
