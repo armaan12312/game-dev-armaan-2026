@@ -1,27 +1,153 @@
-<h2 align=center>t1a13-classes-armaan.html</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t1a13-classes-armaan.html</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            max-width: 650px;
+            width: 100%;
+        }
+        h2 {
+            color: #2d3436;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h4 {
+            color: #636e72;
+            border-bottom: 2px solid #dfe6e9;
+            padding-bottom: 5px;
+            margin-top: 25px;
+        }
+        ul {
+            padding-left: 20px;
+            color: #2d3436;
+            line-height: 1.6;
+        }
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #b2bec3;
+            border-radius: 4px;
+            width: 220px;
+            margin-right: 10px;
+        }
+        input[type="button"] {
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        input[type="button"]:hover {
+            background-color: #74b9ff;
+        }
+        .output-box {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #f1f2f6;
+            border-left: 4px solid #0984e3;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        a {
+            color: #0984e3;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
 
-<a href="">find a good reference to javascript classes</a><br>
-classes are both objects that store variables (called properties) and functions that work on variables (called methods)
+<div class="container">
+    <h2>t1a13-classes-armaan.html</h2>
 
-<h4> example working classes code</h4>
-nothing: <input type=text id="mytext01" value="useless at the momment"><br>
-<input type=button value="example class set and show class animal" onclick="{
-<input type=button value="example class set and show class animal" onclick="{
+    <p>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes" target="_blank">
+            📚 Find a good reference to JavaScript classes (MDN Web Docs)
+        </a><br><br>
+        <strong>Classes</strong> act as blueprints for creating objects. Key concepts include:
+    </p>
+    
+    <ul>
+        <li><strong>Properties:</strong> Variables attached to the class inside the <code>constructor()</code>.</li>
+        <li><strong>Methods:</strong> Functions defined inside the class that perform actions using those properties.</li>
+        <li><strong>Inheritance (`extends`):</strong> Allows one class to inherit features from another parent class.</li>
+    </ul>
 
-class my animal{
-constructor(passname, passsage) {
-this.myname =passname;
-this.myage = passage;
-}
-myshow(){
-document.getelementbyid('mydiv01').innerhtml = 'hello '+ this.myname + '. you
-are ' + this.myage + ' years old<br>
+    <hr>
 
-}
-} // end class animal
+    <h4>Example 1: Basic Class (`MyAnimal`)</h4>
+    Nothing: <input type="text" id="mytext01" value="useless at the moment"><br>
 
-myDog = new myanimal('snickers', 5)
-myDog.myshow()
+    <input type="button" value="Run Animal Class" onclick="{
+        class MyAnimal {
+            constructor(passname, passage) {
+                this.myname = passname;
+                this.myage = passage;
+            }
+            myshow() {
+                document.getElementById('mydiv01').innerHTML = '🐶 Hello ' + this.myname + '. You are ' + this.myage + ' years old.';
+            }
+        } 
 
-}">
-<div id="mydiv01">...</div>
+        let myDog = new MyAnimal('Snickers', 5);
+        myDog.myshow();
+    }">
+
+    <div id="mydiv01" class="output-box">Animal output will show here...</div>
+
+
+    <h4>Example 2: Class Inheritance (`Vehicle` &rarr; `Car`)</h4>
+    <p>This example shows how a subclass (`Car`) can reuse a parent class (`Vehicle`) and add its own unique properties/methods.</p>
+
+    <input type="button" value="Run Inheritance Class" onclick="{
+        class Vehicle {
+            constructor(brand) {
+                this.brand = brand;
+            }
+            present() {
+                return 'I have a ' + this.brand;
+            }
+        }
+
+        class Car extends Vehicle {
+            constructor(brand, model) {
+                super(brand); // Calls the parent class constructor
+                this.model = model;
+            }
+            showCar() {
+                return this.present() + ', specifically a ' + this.model + '!';
+            }
+        }
+
+        let myCar = new Car('Toyota', 'Corolla');
+        document.getElementById('mydiv02').innerHTML = '🚗 ' + myCar.showCar();
+    }">
+
+    <div id="mydiv02" class="output-box">Inheritance output will show here...</div>
+
+</div>
+
+</body>
+</html>
