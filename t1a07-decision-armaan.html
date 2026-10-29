@@ -1,9 +1,27 @@
 <h2 align=center>t1a07-decision-armaan.html</h2>
-
 <h4> example working code</h4>
+<input=id"mynum01" type=number value="4" ><br>
 
-<input id="mynum01" type=number value="4" ><br>
+<input type=button value="simple if statement for decision making" onclick="{
 
-<input id="mynum01" type=number value="4" ><br>
+let myin01 = parsefloat(document.getelementbyid('mynum01').value)
+  if (myin01 >= 3){
+    document.getelementbyid('mydiv01').innerhtml = myin01 + ' is greater then 3'
+  }
+  }">
+  <input type=button value="if...else" onclick="{
+    let myin01 = parsefloat(document.getelementbyid('mynum01').value)
+    let myin01 >= 3){
+    document.getelementbyid('mydiv01').innerhtml = myin01 + ' is greater then 3'
+    } else {
+      document.getelementbyid('mydiv01').innerhtml = myin01 + ' is less then 3'}
+    }'>
+    <input type=button value="complex if" onclick="{
+    let myin01 = parsefloat(document.getelementbyid('mynum01').value)
+    if ((myin01 != 3 || myin01 > -3) && myin01 <=100){
+      document.getelementbyid('mydiv01').innerhtml = myin01 + ' is complex'
+      } else {
+      document.getelementbyid('mydiv01').innerhtml = my in01 + ' is not complex'}
+      }">
 
-<input type=button value="simple if statement for decision making"
+      <div id="mydiv01">...</div>
