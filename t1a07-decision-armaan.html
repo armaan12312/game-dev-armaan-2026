@@ -1,27 +1,106 @@
-<h2 align=center>t1a07-decision-armaan.html</h2>
-<h4> example working code</h4>
-<input=id"mynum01" type=number value="4" ><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>t1a07-decision-armaan.html</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        input, button {
+            margin: 8px 0;
+            padding: 8px;
+            font-size: 14px;
+        }
+        #mydiv01 {
+            margin-top: 15px;
+            padding: 10px;
+            background: #eef2f5;
+            border-left: 4px solid #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
 
-<input type=button value="simple if statement for decision making" onclick="{
+<div class="container">
+    <h2 align="center">t1a07-decision-armaan.html</h2>
+    <h4>Interactive Decision Making Example</h4>
+    
+    <label for="mynum01">Enter a number: </label>
+    <input id="mynum01" type="number" value="4"><br><br>
 
-let myin01 = parsefloat(document.getelementbyid('mynum01').value)
-  if (myin01 >= 3){
-    document.getelementbyid('mydiv01').innerhtml = myin01 + ' is greater then 3'
-  }
-  }">
-  <input type=button value="if...else" onclick="{
-    let myin01 = parsefloat(document.getelementbyid('mynum01').value)
-    let myin01 >= 3){
-    document.getelementbyid('mydiv01').innerhtml = myin01 + ' is greater then 3'
-    } else {
-      document.getelementbyid('mydiv01').innerhtml = myin01 + ' is less then 3'}
-    }'>
-    <input type=button value="complex if" onclick="{
-    let myin01 = parsefloat(document.getelementbyid('mynum01').value)
-    if ((myin01 != 3 || myin01 > -3) && myin01 <=100){
-      document.getelementbyid('mydiv01').innerhtml = myin01 + ' is complex'
-      } else {
-      document.getelementbyid('mydiv01').innerhtml = my in01 + ' is not complex'}
-      }">
+    <!-- Simple If Statement -->
+    <input type="button" value="Simple If Statement" onclick="{
+        let myin01 = parseFloat(document.getElementById('mynum01').value);
+        if (myin01 >= 3) {
+            document.getElementById('mydiv01').innerHTML = myin01 + ' is greater than or equal to 3';
+        }
+    }"><br>
 
-      <div id="mydiv01">...</div>
+    <!-- If...Else Statement -->
+    <input type="button" value="If...Else Statement" onclick="{
+        let myin01 = parseFloat(document.getElementById('mynum01').value);
+        if (myin01 >= 3) {
+            document.getElementById('mydiv01').innerHTML = myin01 + ' is greater than or equal to 3';
+        } else {
+            document.getElementById('mydiv01').innerHTML = myin01 + ' is less than 3';
+        }
+    }"><br>
+
+    <!-- If...Else If...Else Statement (New) -->
+    <input type="button" value="If...Else If...Else (Range Check)" onclick="{
+        let myin01 = parseFloat(document.getElementById('mynum01').value);
+        if (myin01 > 50) {
+            document.getElementById('mydiv01').innerHTML = myin01 + ' is a large number (greater than 50)';
+        } else if (myin01 >= 10) {
+            document.getElementById('mydiv01').innerHTML = myin01 + ' is a medium number (between 10 and 50)';
+        } else {
+            document.getElementById('mydiv01').innerHTML = myin01 + ' is a small number (less than 10)';
+        }
+    }"><br>
+
+    <!-- Complex If Statement -->
+    <input type="button" value="Complex If Statement" onclick="{
+        let myin01 = parseFloat(document.getElementById('mynum01').value);
+        if ((myin01 != 3 || myin01 > -3) && myin01 <= 100) {
+            document.getElementById('mydiv01').innerHTML = myin01 + ' fits the complex criteria (not 3 or > -3, and <= 100)';
+        } else {
+            document.getElementById('mydiv01').innerHTML = myin01 + ' does NOT fit the complex criteria';
+        }
+    }"><br>
+
+    <!-- Switch Statement (New Decision Structure) -->
+    <input type="button" value="Switch Statement (Exact Match)" onclick="{
+        let myin01 = parseFloat(document.getElementById('mynum01').value);
+        let message = '';
+        switch (myin01) {
+            case 0:
+                message = 'You entered zero!';
+                break;
+            case 7:
+                message = 'Lucky seven!';
+                break;
+            case 100:
+                message = 'Perfect score of 100!';
+                break;
+            default:
+                message = myin01 + ' is a regular number with no special case.';
+        }
+        document.getElementById('mydiv01').innerHTML = message;
+    }"><br>
+
+    <div id="mydiv01">Results will appear here...</div>
+</div>
+
+</body>
+</html>
