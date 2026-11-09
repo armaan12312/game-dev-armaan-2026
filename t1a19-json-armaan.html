@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 650px;
+      max-width: 700px;
       margin: 40px auto;
       padding: 20px;
       text-align: center;
@@ -23,6 +23,8 @@
       border: 1px solid #ccc;
       background-color: #fff;
       cursor: pointer;
+      width: 80%;
+      max-width: 400px;
     }
     #mydiv01 {
       margin-top: 20px;
@@ -47,10 +49,11 @@
       display: block;
       margin-left: auto;
       margin-right: auto;
+      max-height: 400px;
     }
     .custom-output {
       margin-top: 15px;
-      padding: 12px;
+      padding: 15px;
       background: #eef2f3;
       border-left: 4px solid #3498db;
       font-size: 16px;
@@ -62,12 +65,19 @@
 
   <h1 align="center">t1a19-json-armaan.html</h1>
 
-  <!-- Expanded dropdown with multiple fun JSON APIs -->
+  <!-- Dropdown containing 10 JSON APIs -->
   <select id="myselect" size="1" onchange="fetchdata(this.value)">
-    <option value="">-- Select a JSON API Source --</option>
-    <option value="https://randomfox.ca/floof/">Random Fox 🦊</option>
-    <option value="https://dog.ceo/api/breeds/image/random">Random Dog 🐶</option>
-    <option value="https://api.adviceslip.com/advice">Random Advice 💡</option>
+    <option value="">-- Select a JSON API Source (10 Options) --</option>
+    <option value="https://randomfox.ca/floof/">1. Random Fox 🦊</option>
+    <option value="https://dog.ceo/api/breeds/image/random">2. Random Dog 🐶</option>
+    <option value="https://catfact.ninja/fact">3. Random Cat Fact 🐱</option>
+    <option value="https://api.adviceslip.com/advice">4. Random Advice 💡</option>
+    <option value="https://api.chucknorris.io/jokes/random">5. Chuck Norris Joke 🥋</option>
+    <option value="https://api.ipify.org?format=json">6. Public IP Address 🌐</option>
+    <option value="https://api.genderize.io?name=alex">7. Name Gender Predictor (Alex) 👤</option>
+    <option value="https://api.agify.io?name=john">8. Name Age Predictor (John) 📊</option>
+    <option value="https://api.coindesk.com/v1/bpi/currentprice.json">9. Bitcoin Price Index 🪙</option>
+    <option value="https://api.nationalize.io?name=michael">10. Name Nationality Predictor (Michael) 🌍</option>
   </select>
 
   <br><br>
@@ -79,7 +89,6 @@
       if (!url) return;
 
       const displayDiv = document.getElementById('mydiv01');
-      // Show loading indicator
       displayDiv.innerHTML = "<em>Loading JSON data...</em>";
 
       try {
@@ -87,29 +96,34 @@
         const data = await response.json();
         console.log(data);
 
-        // Format JSON with indentation
+        // Format raw JSON with indentation
         const myjson = JSON.stringify(data, null, 2);
-        
-        // Start building output with raw JSON inside <pre>
         let htmlContent = `<pre>${myjson}</pre>`;
 
-        // Dynamically check what kind of data was returned and render it visually
+        // Dynamically handle specific layouts based on API response structure
         if (data.image) {
-          // Fox API format
-          htmlContent += `<img src="${data.image}" alt="Random Fox">`;
+          htmlContent += `<img src="${data.image}" alt="API Image">`;
         } else if (data.message && data.message.includes("http")) {
-          // Dog CEO API format
-          htmlContent += `<img src="${data.message}" alt="Random Dog">`;
+          htmlContent += `<img src="${data.message}" alt="API Image">`;
+        } else if (data.fact) {
+          htmlContent += `<div class="custom-output"><strong>Cat Fact:</strong> ${data.fact}</div>`;
         } else if (data.slip) {
-          // Advice Slip API format
           htmlContent += `<div class="custom-output"><strong>Advice:</strong> "${data.slip.advice}"</div>`;
+        } else if (data.value) {
+          htmlContent += `<div class="custom-output"><strong>Joke:</strong> ${data.value}</div>`;
+        } else if (data.ip) {
+          htmlContent += `<div class="custom-output"><strong>Your IP Address:</strong> ${data.ip}</div>`;
+        } else if (data.gender) {
+          htmlContent += `<div class="custom-output"><strong>Name Prediction:</strong> "${data.name}" is likely <strong>${data.gender}</strong> (${Math.round(data.probability * 100)}% chance).</div>`;
+        } else if (data.age) {
+          htmlContent += `<div class="custom-output"><strong>Age Prediction:</strong> Estimated age for "${data.name}" is <strong>${data.age}</strong> years old.</div>`;
         }
 
         displayDiv.innerHTML = htmlContent;
 
       } catch (error) {
         console.error("Error fetching data:", error);
-        displayDiv.innerHTML = "<span style='color: red;'>Failed to load data. Please check your network or CORS settings.</span>";
+        displayDiv.innerHTML = "<span style='color: red;'>Failed to load data. This might be due to browser CORS security restrictions on certain APIs.</span>";
       }
     }
   </script>
