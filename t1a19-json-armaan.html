@@ -1,19 +1,118 @@
-<h1> align="center">t1a19-json-armaan.html</h1>
-<script>
-  async function fetchdata(url){
-const reponse = await fetch(url);
-const data = await reponse.json();
-console.log(data);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>t1a19-json-armaan.html</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 650px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+      background-color: #f4f7f6;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    select {
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    #mydiv01 {
+      margin-top: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    pre {
+      background: #f1f1f1;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin-top: 15px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .custom-output {
+      margin-top: 15px;
+      padding: 12px;
+      background: #eef2f3;
+      border-left: 4px solid #3498db;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
 
-const myjson = json.stringify(data, null, 2);
-document.getelementbyid('mydiv01').innerhtml = <pre>${Myjson}</pre>;
+  <h1 align="center">t1a19-json-armaan.html</h1>
 
-document.getelementbyid('mydiv01').innerhtml += <img src="${data.image}" alt="random image" style="max-width: 100%; height: auto;"> ;
-}
-</script>
+  <!-- Expanded dropdown with multiple fun JSON APIs -->
+  <select id="myselect" size="1" onchange="fetchdata(this.value)">
+    <option value="">-- Select a JSON API Source --</option>
+    <option value="https://randomfox.ca/floof/">Random Fox 🦊</option>
+    <option value="https://dog.ceo/api/breeds/image/random">Random Dog 🐶</option>
+    <option value="https://api.adviceslip.com/advice">Random Advice 💡</option>
+  </select>
 
-<select id="myselect" size="1" onchange="fetchdata(this.value)">
-<option ></option>
-<option value="https://randomfox.ca/floof/">randomfox</option>
-</select><br><br>
-<div id="mydiv01">...</div>
+  <br><br>
+
+  <div id="mydiv01">Select an option from the dropdown above to load data...</div>
+
+  <script>
+    async function fetchdata(url) {
+      if (!url) return;
+
+      const displayDiv = document.getElementById('mydiv01');
+      // Show loading indicator
+      displayDiv.innerHTML = "<em>Loading JSON data...</em>";
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+
+        // Format JSON with indentation
+        const myjson = JSON.stringify(data, null, 2);
+        
+        // Start building output with raw JSON inside <pre>
+        let htmlContent = `<pre>${myjson}</pre>`;
+
+        // Dynamically check what kind of data was returned and render it visually
+        if (data.image) {
+          // Fox API format
+          htmlContent += `<img src="${data.image}" alt="Random Fox">`;
+        } else if (data.message && data.message.includes("http")) {
+          // Dog CEO API format
+          htmlContent += `<img src="${data.message}" alt="Random Dog">`;
+        } else if (data.slip) {
+          // Advice Slip API format
+          htmlContent += `<div class="custom-output"><strong>Advice:</strong> "${data.slip.advice}"</div>`;
+        }
+
+        displayDiv.innerHTML = htmlContent;
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        displayDiv.innerHTML = "<span style='color: red;'>Failed to load data. Please check your network or CORS settings.</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>
