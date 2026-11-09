@@ -1,0 +1,19 @@
+<h1> align="center">t1a19-json-armaan.html</h1>
+<script>
+  async function fetchdata(url){
+const reponse = await fetch(url);
+const data = await reponse.json();
+console.log(data);
+
+const myjson = json.stringify(data, null, 2);
+document.getelementbyid('mydiv01').innerhtml = <pre>${Myjson}</pre>;
+
+document.getelementbyid('mydiv01').innerhtml += <img src="${data.image}" alt="random image" style="max-width: 100%; height: auto;"> ;
+}
+</script>
+
+<select id="myselect" size="1" onchange="fetchdata(this.value)">
+<option ></option>
+<option value="https://randomfox.ca/floof/">randomfox</option>
+</select><br><br>
+<div id="mydiv01">...</div>
