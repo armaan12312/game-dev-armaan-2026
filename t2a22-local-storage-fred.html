@@ -1,0 +1,61 @@
+
+<h2>t2a22-local-storage-fred.html</h2>
+
+<h2>My To-Do List</h2>
+
+<body onload="{
+   myStorage = localStorage.getItem('myStoredText')
+   if(myStorage != null){
+      document.getElementById('myText1').value = myStorage
+   }
+}">
+
+<body onunload="{
+   localStorage.setItem('myStoredText', document.getElementById('myText1').value)
+}">
+
+<p>Write down things you need to get done. Your list will be saved even if you close the page.</p>
+
+Text example: <input id="myText1" type="text" size="70" value="" placeholder="Write your to-do list here"><br><br>
+
+<p>Some ideas to get you started:</p>
+
+<ul>
+   <li>Finish my homework</li>
+   <li>Clean my room</li>
+   <li>Study for a test</li>
+   <li>Walk the dog</li>
+   <li>Remember to do my chores</li>
+</ul>
+
+<p>What do you need to get done today?</p>
+
+<input type="button" value="Store My List" onClick="{
+   localStorage.setItem('myStoredText', document.getElementById('myText1').value)
+   alert('Your to-do list has been saved!')
+}">
+
+<input type="button" value="Retrieve My List" onClick="{
+   document.getElementById('myText1').value = localStorage.getItem('myStoredText') || ''
+}">
+
+<input type="button" value="Clear My List" onClick="{
+   document.getElementById('myText1').value = ''
+   localStorage.removeItem('myStoredText')
+   alert('Your to-do list has been cleared!')
+}">
+
+<br><br>
+
+<p>Did you finish everything today?</p>
+
+<input type="button" value="Yes, all done!" onClick="{
+   alert('Good job! You got everything done!')
+}">
+
+<input type="button" value="Not yet" onClick="{
+   alert('No worries! Keep working on your list.')
+}">
+
+<p>Remember to click Store My List so you don't lose your work!</p>
+</body>
