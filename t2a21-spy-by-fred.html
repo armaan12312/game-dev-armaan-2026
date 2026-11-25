@@ -1,101 +1,486 @@
 
-<h1 align=center>t2a21-spy-by-fred.html</h1>
+<h1 align="center">t2a21-spy-by-fred.html</h1>
 
-<h2 align=center>My Secret Spy Message Encoder</h2>
+<h2 align="center">My Secret Spy Message Encoder</h2>
 
 <p>Welcome to my spy message website! Type a message below and press encrypt to turn it into a secret message. You can also decrypt it to read it again.</p>
 
+<hr>
+
+<h3>Spy Control Panel</h3>
+
+<p>Select your encryption level:</p>
+
+<select id="spyMode">
+    <option value="1">Level 1 - Caesar Cipher</option>
+    <option value="3">Level 3 - Advanced Shift</option>
+    <option value="5">Level 5 - Maximum Shift</option>
+</select>
+
+<p>Enter your own secret number:</p>
+<input type="number" id="spyNumber" value="1" min="1" max="25">
+
 <p>Enter your secret message here:</p>
 
-<textarea id="myArea01" rows=4 cols=70>Hello how are you</textarea><br><br>
+<textarea id="myArea01" rows="4" cols="70"
+oninput="updateStats()">Hello how are you</textarea>
 
-<input type=button value="Encrypt Message" onclick="{
-   let myTemp = ''
-   myString = document.getElementById('myArea01').value.toLowerCase().split('')
-   for (let myLoop=0; myLoop < myString.length; myLoop++){
-      myTemp = myString[myLoop]
-      if (myString[myLoop] == 'e') {myTemp = 'f'}
-      if (myString[myLoop] == 'h') {myTemp = 'i'}
-      if (myString[myLoop] == 'a') {myTemp = 'b'}
-      if (myString[myLoop] == 'b') {myTemp = 'c'}
-      if (myString[myLoop] == 'c') {myTemp = 'd'}
-      if (myString[myLoop] == 'd') {myTemp = 'e'}
-      if (myString[myLoop] == 'f') {myTemp = 'g'}
-      if (myString[myLoop] == 'g') {myTemp = 'h'}
-      if (myString[myLoop] == 'i') {myTemp = 'j'}
-      if (myString[myLoop] == 'j') {myTemp = 'k'}
-      if (myString[myLoop] == 'k') {myTemp = 'l'}
-      if (myString[myLoop] == 'l') {myTemp = 'm'}
-      if (myString[myLoop] == 'm') {myTemp = 'n'}
-      if (myString[myLoop] == 'n') {myTemp = 'o'}
-      if (myString[myLoop] == 'o') {myTemp = 'p'}
-      if (myString[myLoop] == 'p') {myTemp = 'q'}
-      if (myString[myLoop] == 'q') {myTemp = 'r'}
-      if (myString[myLoop] == 'r') {myTemp = 's'}
-      if (myString[myLoop] == 's') {myTemp = 't'}
-      if (myString[myLoop] == 't') {myTemp = 'u'}
-      if (myString[myLoop] == 'u') {myTemp = 'v'}
-      if (myString[myLoop] == 'v') {myTemp = 'w'}
-      if (myString[myLoop] == 'w') {myTemp = 'x'}
-      if (myString[myLoop] == 'x') {myTemp = 'y'}
-      if (myString[myLoop] == 'y') {myTemp = 'z'}
-      if (myString[myLoop] == 'z') {myTemp = 'a'}
-      myString[myLoop] = myTemp
-   }
-   document.getElementById('myArea02').value = myString.join('')
-   alert('Your secret message has been encrypted!')
-}"><br><br>
+<p id="stats">Characters: 18 | Words: 4</p>
+
+<br>
+
+<input type="button" value="Encrypt Message"
+onclick="encryptMessage()">
+
+<input type="button" value="Reverse Message"
+onclick="reverseMessage()">
+
+<br><br>
 
 <p>Your encrypted secret message:</p>
 
-<textarea id="myArea02" rows=4 cols=70></textarea><br><br>
+<textarea id="myArea02" rows="4" cols="70"></textarea>
 
-<input type=button value="Decrypt Message" onclick="{
-   let myTemp = ''
-   myString = document.getElementById('myArea02').value.toLowerCase().split('')
-   for (let myLoop=0; myLoop < myString.length; myLoop++){
-      myTemp = myString[myLoop]
-      if (myString[myLoop] == 'b') {myTemp = 'a'}
-      if (myString[myLoop] == 'c') {myTemp = 'b'}
-      if (myString[myLoop] == 'd') {myTemp = 'c'}
-      if (myString[myLoop] == 'e') {myTemp = 'd'}
-      if (myString[myLoop] == 'f') {myTemp = 'e'}
-      if (myString[myLoop] == 'g') {myTemp = 'f'}
-      if (myString[myLoop] == 'h') {myTemp = 'g'}
-      if (myString[myLoop] == 'i') {myTemp = 'h'}
-      if (myString[myLoop] == 'j') {myTemp = 'i'}
-      if (myString[myLoop] == 'k') {myTemp = 'j'}
-      if (myString[myLoop] == 'l') {myTemp = 'k'}
-      if (myString[myLoop] == 'm') {myTemp = 'l'}
-      if (myString[myLoop] == 'n') {myTemp = 'm'}
-      if (myString[myLoop] == 'o') {myTemp = 'n'}
-      if (myString[myLoop] == 'p') {myTemp = 'o'}
-      if (myString[myLoop] == 'q') {myTemp = 'p'}
-      if (myString[myLoop] == 'r') {myTemp = 'q'}
-      if (myString[myLoop] == 's') {myTemp = 'r'}
-      if (myString[myLoop] == 't') {myTemp = 's'}
-      if (myString[myLoop] == 'u') {myTemp = 't'}
-      if (myString[myLoop] == 'v') {myTemp = 'u'}
-      if (myString[myLoop] == 'w') {myTemp = 'v'}
-      if (myString[myLoop] == 'x') {myTemp = 'w'}
-      if (myString[myLoop] == 'y') {myTemp = 'x'}
-      if (myString[myLoop] == 'z') {myTemp = 'y'}
-      if (myString[myLoop] == 'a') {myTemp = 'z'}
-      myString[myLoop] = myTemp
-   }
-   document.getElementById('myArea03').value = myString.join('')
-   alert('Your message has been decrypted!')
-}"><br><br>
+<br><br>
+
+<input type="button" value="Decrypt Message"
+onclick="decryptMessage()">
+
+<input type="button" value="Copy Encrypted Message"
+onclick="copyText('myArea02')">
+
+<br><br>
 
 <p>Your decrypted message:</p>
 
-<textarea id="myArea03" rows=4 cols=70></textarea><br><br>
+<textarea id="myArea03" rows="4" cols="70"></textarea>
 
-<input type=button value="Clear Everything" onclick="{
-   document.getElementById('myArea01').value = ''
-   document.getElementById('myArea02').value = ''
-   document.getElementById('myArea03').value = ''
-   alert('All text has been cleared!')
-}">
+<br><br>
+
+<input type="button" value="Copy Decrypted Message"
+onclick="copyText('myArea03')">
+
+<hr>
+
+<h3>Extra Spy Tools</h3>
+
+<p>Convert your message into binary code:</p>
+
+<input type="button" value="Convert to Binary"
+onclick="toBinary()">
+
+<textarea id="binaryArea" rows="4" cols="70"></textarea>
+
+<br><br>
+
+<input type="button" value="Binary to Text"
+onclick="fromBinary()">
+
+<br><br>
+
+<p>Generate a random secret password:</p>
+
+<input type="button" value="Generate Spy Password"
+onclick="generatePassword()">
+
+<textarea id="passwordArea" rows="2" cols="40"></textarea>
+
+<br><br>
+
+<input type="button" value="Copy Password"
+onclick="copyText('passwordArea')">
+
+<hr>
+
+<h3>Spy Mission History</h3>
+
+<ul id="history">
+    <li>Spy system started successfully.</li>
+</ul>
+
+<br>
+
+<input type="button" value="Clear Everything"
+onclick="clearEverything()">
 
 <p>Spy tip: Keep your secret messages safe and have fun decoding them!</p>
+
+<script>
+
+// ======================================
+// SPY SYSTEM VARIABLES
+// ======================================
+
+let spyHistory = [];
+
+let alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+// ======================================
+// UPDATE MESSAGE STATISTICS
+// ======================================
+
+function updateStats() {
+
+    let message = document.getElementById('myArea01').value;
+
+    let characters = message.length;
+
+    let words = message.trim() === ""
+        ? 0
+        : message.trim().split(/\s+/).length;
+
+    document.getElementById('stats').innerHTML =
+        "Characters: " + characters +
+        " | Words: " + words;
+}
+
+// ======================================
+// GET ENCRYPTION SHIFT
+// ======================================
+
+function getShift() {
+
+    let mode = Number(document.getElementById('spyMode').value);
+
+    let custom = Number(document.getElementById('spyNumber').value);
+
+    if (!Number.isInteger(custom) || custom < 1 || custom > 25) {
+        alert("Enter a secret number between 1 and 25!");
+        return null;
+    }
+
+    return (mode * custom) % 26;
+}
+
+// ======================================
+// ENCRYPT MESSAGE
+// ======================================
+
+function encryptMessage() {
+
+    let message = document.getElementById('myArea01').value;
+
+    if (message.trim() === "") {
+        alert("Enter a message first!");
+        return;
+    }
+
+    let shift = getShift();
+
+    if (shift === null) return;
+
+    let encrypted = "";
+
+    for (let i = 0; i < message.length; i++) {
+
+        let letter = message[i];
+
+        if (letter >= "a" && letter <= "z") {
+
+            let code = letter.charCodeAt(0);
+
+            encrypted += String.fromCharCode(
+                ((code - 97 + shift) % 26) + 97
+            );
+
+        } else if (letter >= "A" && letter <= "Z") {
+
+            let code = letter.charCodeAt(0);
+
+            encrypted += String.fromCharCode(
+                ((code - 65 + shift) % 26) + 65
+            );
+
+        } else {
+
+            encrypted += letter;
+
+        }
+    }
+
+    document.getElementById('myArea02').value = encrypted;
+
+    addHistory("Encrypted a message using shift " + shift);
+
+    alert("MISSION SUCCESS! Message encrypted!");
+}
+
+// ======================================
+// DECRYPT MESSAGE
+// ======================================
+
+function decryptMessage() {
+
+    let message = document.getElementById('myArea02').value;
+
+    if (message.trim() === "") {
+        alert("Enter an encrypted message first!");
+        return;
+    }
+
+    let shift = getShift();
+
+    if (shift === null) return;
+
+    let decrypted = "";
+
+    for (let i = 0; i < message.length; i++) {
+
+        let letter = message[i];
+
+        if (letter >= "a" && letter <= "z") {
+
+            let code = letter.charCodeAt(0);
+
+            decrypted += String.fromCharCode(
+                ((code - 97 - shift + 26) % 26) + 97
+            );
+
+        } else if (letter >= "A" && letter <= "Z") {
+
+            let code = letter.charCodeAt(0);
+
+            decrypted += String.fromCharCode(
+                ((code - 65 - shift + 26) % 26) + 65
+            );
+
+        } else {
+
+            decrypted += letter;
+
+        }
+    }
+
+    document.getElementById('myArea03').value = decrypted;
+
+    addHistory("Decrypted a message using shift " + shift);
+
+    alert("MISSION SUCCESS! Message decrypted!");
+}
+
+// ======================================
+// REVERSE MESSAGE
+// ======================================
+
+function reverseMessage() {
+
+    let message = document.getElementById('myArea01').value;
+
+    if (message === "") {
+        alert("Enter a message first!");
+        return;
+    }
+
+    let reversed = "";
+
+    for (let i = message.length - 1; i >= 0; i--) {
+
+        reversed += message[i];
+
+    }
+
+    document.getElementById('myArea02').value = reversed;
+
+    addHistory("Reversed a message");
+
+    alert("Message reversed!");
+}
+
+// ======================================
+// CONVERT MESSAGE TO BINARY
+// ======================================
+
+function toBinary() {
+
+    let message = document.getElementById('myArea01').value;
+
+    if (message === "") {
+        alert("Enter a message first!");
+        return;
+    }
+
+    let binary = "";
+
+    for (let i = 0; i < message.length; i++) {
+
+        let character = message.charCodeAt(i);
+
+        binary += character.toString(2).padStart(16, "0") + " ";
+
+    }
+
+    document.getElementById('binaryArea').value = binary.trim();
+
+    addHistory("Converted a message into binary");
+
+}
+
+// ======================================
+// CONVERT BINARY TO TEXT
+// ======================================
+
+function fromBinary() {
+
+    let binary = document.getElementById('binaryArea').value.trim();
+
+    if (binary === "") {
+        alert("Enter binary code first!");
+        return;
+    }
+
+    let parts = binary.split(/\s+/);
+
+    let result = "";
+
+    for (let i = 0; i < parts.length; i++) {
+
+        if (!/^[01]{1,16}$/.test(parts[i])) {
+            alert("Invalid binary code!");
+            return;
+        }
+
+        let number = parseInt(parts[i], 2);
+
+        if (number > 65535) {
+            alert("Binary value is too large!");
+            return;
+        }
+
+        result += String.fromCharCode(number);
+
+    }
+
+    document.getElementById('myArea03').value = result;
+
+    addHistory("Converted binary into text");
+
+    alert("Binary converted successfully!");
+
+}
+
+// ======================================
+// GENERATE RANDOM PASSWORD
+// ======================================
+
+function generatePassword() {
+
+    let characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+
+    let password = "";
+
+    for (let i = 0; i < 16; i++) {
+
+        let random = Math.floor(
+            Math.random() * characters.length
+        );
+
+        password += characters[random];
+
+    }
+
+    document.getElementById('passwordArea').value = password;
+
+    addHistory("Generated a spy password");
+
+}
+
+// ======================================
+// COPY TEXT
+// ======================================
+
+function copyText(id) {
+
+    let text = document.getElementById(id).value;
+
+    if (text === "") {
+        alert("There is nothing to copy!");
+        return;
+    }
+
+    if (navigator.clipboard && window.isSecureContext) {
+
+        navigator.clipboard.writeText(text)
+        .then(() => alert("Text copied successfully!"))
+        .catch(() => alert("Copy failed. Please copy manually."));
+
+    } else {
+
+        let area = document.getElementById(id);
+
+        area.select();
+
+        document.execCommand("copy");
+
+        alert("Text copied!");
+
+    }
+}
+
+// ======================================
+// ADD TO SPY HISTORY
+// ======================================
+
+function addHistory(action) {
+
+    spyHistory.push(action);
+
+    let history = document.getElementById('history');
+
+    let newItem = document.createElement('li');
+
+    newItem.textContent =
+        "MISSION " + spyHistory.length + ": " + action;
+
+    history.appendChild(newItem);
+
+}
+
+// ======================================
+// CLEAR EVERYTHING
+// ======================================
+
+function clearEverything() {
+
+    let confirmation = confirm(
+        "Are you sure you want to clear all spy data?"
+    );
+
+    if (confirmation) {
+
+        document.getElementById('myArea01').value = "";
+
+        document.getElementById('myArea02').value = "";
+
+        document.getElementById('myArea03').value = "";
+
+        document.getElementById('binaryArea').value = "";
+
+        document.getElementById('passwordArea').value = "";
+
+        document.getElementById('history').innerHTML =
+            "<li>Spy system restarted.</li>";
+
+        spyHistory = [];
+
+        updateStats();
+
+        alert("ALL SPY DATA CLEARED!");
+
+    }
+
+}
+
+// ======================================
+// START SPY PROGRAM
+// ======================================
+
+updateStats();
+
+console.log("SPY SYSTEM ONLINE");
+
+console.log("Encryption system loaded");
+
+console.log("All spy tools ready");
+
+</script>
