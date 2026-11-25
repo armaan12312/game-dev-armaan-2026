@@ -1,61 +1,477 @@
 
-<h2>t2a22-local-storage-fred.html</h2>
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>t2a22-local-storage-fred</title>
+
+<style>
+
+body {
+    background-color: #D5F5E3;
+    font-family: Arial;
+    margin: 30px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #145A32;
+}
+
+button, input[type=button] {
+    padding: 10px;
+    margin: 5px;
+    background-color: #239B56;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover, input[type=button]:hover {
+    background-color: #196F3D;
+}
+
+#myTaskList {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #239B56;
+}
+
+.task {
+    padding: 10px;
+    margin: 8px;
+    background-color: #EAFAF1;
+    border-radius: 6px;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+</style>
+
+</head>
+
+<body onload="myLoadTasks()">
+
+<h1>t2a22-local-storage-fred.html</h1>
 
 <h2>My To-Do List</h2>
 
-<body onload="{
-   myStorage = localStorage.getItem('myStoredText')
-   if(myStorage != null){
-      document.getElementById('myText1').value = myStorage
-   }
-}">
+<p align="center">
+Welcome to my To-Do List! Add tasks, complete them and save your progress automatically.
+</p>
 
-<body onunload="{
-   localStorage.setItem('myStoredText', document.getElementById('myText1').value)
-}">
+<hr>
 
-<p>Write down things you need to get done. Your list will be saved even if you close the page.</p>
+<h3>Add a New Task</h3>
 
-Text example: <input id="myText1" type="text" size="70" value="" placeholder="Write your to-do list here"><br><br>
+<input id="myTaskInput" type="text" size="40"
+placeholder="What do you need to do?">
 
-<p>Some ideas to get you started:</p>
+<select id="myPriority">
+    <option value="Low">Low Priority</option>
+    <option value="Medium" selected>Medium Priority</option>
+    <option value="High">High Priority</option>
+</select>
 
-<ul>
-   <li>Finish my homework</li>
-   <li>Clean my room</li>
-   <li>Study for a test</li>
-   <li>Walk the dog</li>
-   <li>Remember to do my chores</li>
-</ul>
-
-<p>What do you need to get done today?</p>
-
-<input type="button" value="Store My List" onClick="{
-   localStorage.setItem('myStoredText', document.getElementById('myText1').value)
-   alert('Your to-do list has been saved!')
-}">
-
-<input type="button" value="Retrieve My List" onClick="{
-   document.getElementById('myText1').value = localStorage.getItem('myStoredText') || ''
-}">
-
-<input type="button" value="Clear My List" onClick="{
-   document.getElementById('myText1').value = ''
-   localStorage.removeItem('myStoredText')
-   alert('Your to-do list has been cleared!')
-}">
+<input type="button" value="Add Task" onclick="myAddTask()">
 
 <br><br>
 
-<p>Did you finish everything today?</p>
+<h3>My Tasks</h3>
 
-<input type="button" value="Yes, all done!" onClick="{
-   alert('Good job! You got everything done!')
-}">
+<div id="myTaskList">
+Your tasks will appear here.
+</div>
 
-<input type="button" value="Not yet" onClick="{
-   alert('No worries! Keep working on your list.')
-}">
+<br>
 
-<p>Remember to click Store My List so you don't lose your work!</p>
+<h3>Task Statistics</h3>
+
+<div id="myStats">
+Tasks: 0 | Completed: 0 | Remaining: 0
+</div>
+
+<br>
+
+<h3>Manage Your List</h3>
+
+<input type="button" value="Store My List" onclick="mySaveTasks()">
+
+<input type="button" value="Retrieve My List" onclick="myLoadTasks()">
+
+<input type="button" value="Clear Completed Tasks" onclick="myClearCompleted()">
+
+<input type="button" value="Clear Everything" onclick="myClearAll()">
+
+<br><br>
+
+<h3>Quick Messages</h3>
+
+<input type="button" value="Am I Done?" onclick="myCheckProgress()">
+
+<input type="button" value="Motivate Me!" onclick="myMotivate()">
+
+<p id="myMessage">Good luck getting everything done!</p>
+
+<script>
+
+// Global task array
+
+let myTasks = []
+
+
+// Add a task
+
+function myAddTask(){
+
+    let myText = document.getElementById('myTaskInput').value
+
+    let myPriority = document.getElementById('myPriority').value
+
+    if (myText.trim() == ''){
+        alert('Please enter a task first!')
+        return
+    }
+
+    let myNewTask = {
+
+        text: myText,
+
+        priority: myPriority,
+
+        completed: false
+
+    }
+
+    myTasks.push(myNewTask)
+
+    document.getElementById('myTaskInput').value = ''
+
+    myDisplayTasks()
+
+    mySaveTasks()
+
+}
+
+
+// Display all tasks
+
+function myDisplayTasks(){
+
+    let myOutput = ''
+
+    if (myTasks.length == 0){
+
+        myOutput = 'No tasks yet! Add something above.'
+
+    }
+
+    for (let i = 0; i < myTasks.length; i++){
+
+        let myTask = myTasks[i]
+
+        myOutput += '<div class="task">'
+
+        myOutput += '<input type="checkbox" '
+
+        if (myTask.completed){
+            myOutput += 'checked'
+        }
+
+        myOutput += ' onchange="myCompleteTask(' + i + ')">'
+
+        myOutput += '<span class="'
+
+        if (myTask.completed){
+            myOutput += 'completed'
+        }
+
+        myOutput += '">' + myEscapeHTML(myTask.text) + '</span>'
+
+        myOutput += '<br>Priority: ' + myTask.priority
+
+        myOutput += '<br><input type="button" value="Delete Task" onclick="myDeleteTask(' + i + ')">'
+
+        myOutput += '</div>'
+
+    }
+
+    document.getElementById('myTaskList').innerHTML = myOutput
+
+    myUpdateStats()
+
+}
+
+
+// Safely display user-entered task text
+
+function myEscapeHTML(myText){
+
+    return myText.replace(/[&<>"']/g, function(character){
+
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[character]
+
+    })
+
+}
+
+
+// Complete a task
+
+function myCompleteTask(myIndex){
+
+    myTasks[myIndex].completed = !myTasks[myIndex].completed
+
+    myDisplayTasks()
+
+    mySaveTasks()
+
+}
+
+
+// Delete one task
+
+function myDeleteTask(myIndex){
+
+    myTasks.splice(myIndex, 1)
+
+    myDisplayTasks()
+
+    mySaveTasks()
+
+}
+
+
+// Update statistics
+
+function myUpdateStats(){
+
+    let myCompleted = 0
+
+    for (let i = 0; i < myTasks.length; i++){
+
+        if (myTasks[i].completed){
+            myCompleted++
+        }
+
+    }
+
+    let myRemaining = myTasks.length - myCompleted
+
+    document.getElementById('myStats').innerHTML =
+
+    'Tasks: ' + myTasks.length +
+
+    ' | Completed: ' + myCompleted +
+
+    ' | Remaining: ' + myRemaining
+
+}
+
+
+// Save tasks using localStorage
+
+function mySaveTasks(){
+
+    localStorage.setItem('myStoredTasks', JSON.stringify(myTasks))
+
+    alert('Your tasks have been saved!')
+
+}
+
+
+// Retrieve tasks
+
+function myLoadTasks(){
+
+    let myStorage = localStorage.getItem('myStoredTasks')
+
+    if (myStorage != null){
+
+        try {
+
+            let myLoadedTasks = JSON.parse(myStorage)
+
+            if (!Array.isArray(myLoadedTasks)){
+                throw new Error('Invalid task list')
+            }
+
+            myTasks = myLoadedTasks
+
+        } catch(error) {
+
+            myTasks = []
+
+            alert('Could not load your saved tasks.')
+
+        }
+
+    }
+
+    myDisplayTasks()
+
+}
+
+
+// Clear completed tasks
+
+function myClearCompleted(){
+
+    myTasks = myTasks.filter(function(task){
+
+        return !task.completed
+
+    })
+
+    myDisplayTasks()
+
+    mySaveWithoutAlert()
+
+}
+
+
+// Save without an alert
+
+function mySaveWithoutAlert(){
+
+    localStorage.setItem('myStoredTasks', JSON.stringify(myTasks))
+
+}
+
+
+// Clear everything
+
+function myClearAll(){
+
+    if (confirm('Are you sure you want to delete all your tasks?')){
+
+        myTasks = []
+
+        localStorage.removeItem('myStoredTasks')
+
+        myDisplayTasks()
+
+        alert('Everything has been cleared!')
+
+    }
+
+}
+
+
+// Check progress
+
+function myCheckProgress(){
+
+    let myCompleted = myTasks.filter(function(task){
+
+        return task.completed
+
+    }).length
+
+    if (myTasks.length == 0){
+
+        alert('You have not added any tasks yet!')
+
+    }
+
+    else if (myCompleted == myTasks.length){
+
+        alert('Amazing! You completed every task!')
+
+    }
+
+    else {
+
+        alert('You have completed ' + myCompleted +
+        ' out of ' + myTasks.length + ' tasks!')
+
+    }
+
+}
+
+
+// Motivational messages
+
+function myMotivate(){
+
+    let myMessages = [
+
+        'You can do it!',
+
+        'Keep going! You are doing great!',
+
+        'Every task completed is a victory!',
+
+        'Stay focused and keep working!',
+
+        'You are making progress!',
+
+        'Believe in yourself!'
+
+    ]
+
+    let myRandom = Math.floor(Math.random() * myMessages.length)
+
+    document.getElementById('myMessage').innerHTML =
+    myMessages[myRandom]
+
+}
+
+
+// Automatically save when leaving the page
+
+window.addEventListener('beforeunload', function(){
+
+    mySaveWithoutAlert()
+
+})
+
+</script>
+
+<br>
+
+<h3>Some Ideas to Get You Started</h3>
+
+<ul>
+    <li>Finish my homework</li>
+    <li>Clean my room</li>
+    <li>Study for a test</li>
+    <li>Walk the dog</li>
+    <li>Remember to do my chores</li>
+    <li>Exercise for 30 minutes</li>
+    <li>Read a book</li>
+    <li>Organize my desk</li>
+    <li>Practice coding</li>
+    <li>Help around the house</li>
+</ul>
+
+<h3>What I Learned</h3>
+
+<p>
+I learned how localStorage saves information in the browser even after the page is closed.
+</p>
+
+<p>
+I also learned how JSON.stringify() converts my task array into text so it can be saved, and JSON.parse() changes it back into JavaScript data.
+</p>
+
+<p>
+My favourite part of this project is being able to add tasks, mark them completed and have everything saved automatically!
+</p>
+
+<p>Thanks for using my To-Do List!</p>
+
 </body>
+</html>
