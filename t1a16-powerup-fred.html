@@ -8,115 +8,209 @@
 let myHero = {
    name: 'Captain Code',
    power: 100,
+   health: 100,
+   xp: 0,
+   level: 1,
    comment: 'Ready for training!'
 };
 
-// STEP 2: Write a function named trainHero()
+// STEP 2: Train the hero
 function trainHero(){
 
-   myHero.power = myHero.power - 10
-
-   if (myHero.power > 70){
-      myHero.comment = 'Amazing! You have lots of energy!'
-   } else if (myHero.power > 40){
-      myHero.comment = 'Good job! Keep training!'
-   } else if (myHero.power > 0){
-      myHero.comment = 'You are getting tired. Take a break soon!'
-   } else {
-      alert('Your hero is out of energy! Power is being restored.')
-      myHero.comment = 'Captain Code fainted! Energy has been reset.'
-      myHero.power = 100
+   if(myHero.power <= 0){
+      alert('Your hero needs to recharge first!')
+      return
    }
 
-}
+   myHero.power = myHero.power - 10
+   myHero.xp = myHero.xp + 15
 
-// Reset the hero back to full power
-function resetHero(){
-   myHero.power = 100
-   myHero.comment = 'Ready for training again!'
+   if(myHero.power > 70){
+      myHero.comment = 'Amazing! You have lots of energy!'
+   } else if(myHero.power > 40){
+      myHero.comment = 'Good job! Keep training!'
+   } else if(myHero.power > 0){
+      myHero.comment = 'You are getting tired. Take a break soon!'
+   }
+
+   // Check if the hero levels up
+   if(myHero.xp >= 100){
+      myHero.level = myHero.level + 1
+      myHero.xp = myHero.xp - 100
+      myHero.comment = 'LEVEL UP! You are getting stronger!'
+      alert('Congratulations! Captain Code reached level ' + myHero.level)
+   }
+
+   if(myHero.power <= 0){
+      myHero.comment = 'Captain Code is exhausted! Use the recharge button.'
+      alert('Your hero has run out of energy!')
+   }
+
    showHero()
 }
 
-// Display the hero information
+// STEP 3: Recharge the hero
+function rechargeHero(){
+   myHero.power = 100
+   myHero.comment = 'Fully recharged and ready to go!'
+   showHero()
+}
+
+// STEP 4: Special power-up
+function powerUp(){
+
+   myHero.power = Math.min(myHero.power + 30, 100)
+   myHero.health = Math.min(myHero.health + 10, 100)
+
+   myHero.comment = 'Special power-up activated!'
+
+   showHero()
+}
+
+// STEP 5: Display hero information
 function showHero(){
+
    document.getElementById('myDiv01').innerHTML =
    'Hero Name: ' + myHero.name +
+   '<br>Level: ' + myHero.level +
+   '<br>Experience: ' + myHero.xp + ' / 100' +
    '<br>Remaining Power: ' + myHero.power +
+   '<br>Health: ' + myHero.health +
    '<br>Coach Comment: ' + myHero.comment
 
    document.getElementById('myProgress').value = myHero.power
+   document.getElementById('myHealth').value = myHero.health
+   document.getElementById('myXP').value = myHero.xp
+}
+
+// STEP 6: Reset everything
+function resetHero(){
+
+   myHero.power = 100
+   myHero.health = 100
+   myHero.xp = 0
+   myHero.level = 1
+   myHero.comment = 'Ready for training again!'
+
+   showHero()
 }
 
 </script>
 </head>
 
-<h2 align=center>Stateful Hero Energy Tracker</h2>
+<body style="background-color:#e8f1ff; font-family:Arial;">
 
-Student Name: ___________________, Date: ___________________
+<h1 align=center>t1a16-powerup-fred.html</h1>
 
-Assignment Title: Stateful Object Assignment
+<h2 align=center>Captain Code: Hero Training Simulator</h2>
 
-<br><br>
+<h3 align=center>Stateful Hero Energy Tracker</h3>
 
-<fieldset style="background-color: #f0f4f8; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+<p align=center>Student Name: ___________________</p>
+<p align=center>Date: ___________________</p>
 
-<legend><strong>Assignment Prompt:</strong></legend>
+<fieldset style="background-color:#f0f4f8; padding:15px; border-radius:8px; margin-bottom:15px;">
 
-1. Create a hero object named Captain Code.
+<legend><strong>My Assignment</strong></legend>
+
+Welcome to my hero training game!
+
+1. Train Captain Code to earn experience points.
 <br>
-2. Give your hero 100 starting power.
+2. Watch your energy go down every time you train.
 <br>
-3. Click the train button to use 10 power each time.
+3. Earn enough XP to level up.
 <br>
-4. Watch your hero's comments change as the power gets lower.
+4. Use power-ups to restore energy and health.
 <br>
-5. If power reaches 0, your hero will faint and recharge.
-<br>
-6. Try to see how many times you can train your hero!
+5. Try to reach the highest level you can!
 
 </fieldset>
 
-<h3>Meet Your Hero!</h3>
+<h2 align=center>Meet Your Hero!</h2>
 
-<p>This is Captain Code. He is ready to train and become stronger, but make sure he doesn't run out of energy!</p>
+<p align=center>Captain Code is ready to become the strongest hero. Help him train and unlock new levels!</p>
 
-<div id="myDiv01">
-   Hero Name: Captain Code
-   <br>
-   Remaining Power: 100
-   <br>
-   Coach Comment: Ready for training!
+<div id="myDiv01" style="background-color:white; padding:15px; border:2px solid #333; border-radius:8px; text-align:center;">
+
+Hero Name: Captain Code
+<br>
+Level: 1
+<br>
+Experience: 0 / 100
+<br>
+Remaining Power: 100
+<br>
+Health: 100
+<br>
+Coach Comment: Ready for training!
+
 </div>
 
 <br>
 
-<h3>Hero Energy Bar</h3>
+<h3 align=center>Energy Bar</h3>
 
 <progress id="myProgress" value="100" max="100" style="width:300px; height:25px;"></progress>
 
+<h3 align=center>Health Bar</h3>
+
+<progress id="myHealth" value="100" max="100" style="width:300px; height:25px;"></progress>
+
+<h3 align=center>Experience Bar</h3>
+
+<progress id="myXP" value="0" max="100" style="width:300px; height:25px;"></progress>
+
 <br><br>
+
+<h2 align=center>Training Controls</h2>
 
 <input type=button value="Train Hero (-10 Power)" onclick="{
    trainHero()
-   showHero()
 }">
 
-<input type=button value="Reset Hero" onclick="{
+<input type=button value="Recharge Hero" onclick="{
+   rechargeHero()
+}">
+
+<input type=button value="Special Power-Up (+30 Power)" onclick="{
+   powerUp()
+}">
+
+<input type=button value="Reset Game" onclick="{
    resetHero()
-   alert('Captain Code is ready again!')
+   alert('Your hero has been reset!')
 }">
 
 <br><br>
 
-<h3>Training Tips</h3>
+<h3 align=center>Training Challenges</h3>
+
+<p align=center>Try these challenges while playing:</p>
 
 <ul>
-   <li>100-80 power: Your hero is full of energy.</li>
-   <li>70-50 power: Your hero is doing great.</li>
-   <li>40-10 power: Your hero is getting tired.</li>
-   <li>0 power: Your hero faints and gets recharged.</li>
+   <li>Can you get Captain Code to level 2?</li>
+   <li>Can you earn 100 experience points?</li>
+   <li>Can you keep your energy above 50?</li>
+   <li>Can you use power-ups to stay in the game?</li>
 </ul>
 
-<p>Keep training Captain Code and see how long he can last!</p>
+<h3 align=center>How the Game Works</h3>
 
-<p>Thanks for trying my Stateful Hero Energy Tracker!</p>
+<p><b>Training:</b> Every time you train, you lose 10 energy and gain 15 XP.</p>
+
+<p><b>Leveling Up:</b> When you earn 100 XP, your hero moves up one level.</p>
+
+<p><b>Power-Up:</b> Restores 30 energy and 10 health.</p>
+
+<p><b>Recharge:</b> Restores your energy back to 100.</p>
+
+<p><b>Reset:</b> Starts your hero back at level 1 with full energy and health.</p>
+
+<br>
+
+<h3 align=center>Good Luck, Captain Code!</h3>
+
+<p align=center>Thanks for playing my Hero Training Simulator!</p>
+
+</body>
