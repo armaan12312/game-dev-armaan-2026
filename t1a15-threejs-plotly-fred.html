@@ -1,0 +1,257 @@
+
+<h1 align=center>t1a15-threejs-plotly-fred.html</h1>
+
+<h2 align=center>My 3D Space Exploration Project</h2>
+
+<body style="background-color:#080d20; color:white; text-align:center; font-family:Arial;">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+<p>Welcome to my space exploration project! Explore all eight planets and see how they move around the Sun.</p>
+
+<h3>Part 1: Planet Orbit Graph</h3>
+
+<p>This graph shows the different distances of the planets from the Sun.</p>
+
+<input type=button value="Show Plotly Graph" onclick="{
+  let myPlotlyDiv = document.getElementById('myPlotlyDiv');
+
+  let myTheta = [];
+
+  for(let i = 0; i <= 360; i += 3){
+     myTheta.push(i * Math.PI / 180);
+  }
+
+  let myDistances = [1, 1.5, 2, 2.7, 3.8, 4.8, 5.8, 6.8];
+
+  let myNames = ['Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune'];
+
+  let myColors = ['#aaaaaa','#ffcc66','#00aaff','#ff5533','#ffaa33','#e6cc99','#66ffff','#3366ff'];
+
+  let myData = [];
+
+  for(let i=0; i<myDistances.length; i++){
+     myData.push({
+       x:myTheta.map(t => myDistances[i]*Math.cos(t)),
+       y:myTheta.map(t => myDistances[i]*Math.sin(t)),
+       mode:'lines',
+       name:myNames[i],
+       line:{color:myColors[i],width:2}
+     });
+  }
+
+  myData.push({
+     x:[0],
+     y:[0],
+     mode:'markers',
+     name:'Sun',
+     marker:{color:'yellow',size:20}
+  });
+
+  Plotly.newPlot(myPlotlyDiv,myData,{
+     title:'All 8 Planetary Orbits',
+     paper_bgcolor:'#101a35',
+     plot_bgcolor:'#101a35',
+     font:{color:'white'},
+     xaxis:{title:'Distance from Sun',scaleanchor:'y'},
+     yaxis:{title:'Distance from Sun'},
+     margin:{t:50,b:50,l:50,r:30},
+     showlegend:true
+  });
+}">
+
+<br><br>
+
+<div id="myPlotlyDiv" style="width:95%; max-width:800px; height:450px; margin:auto;"></div>
+
+<br>
+
+<h3>Part 2: 3D Solar System</h3>
+
+<p>Click the button to create a 3D solar system. Watch all eight planets travel around the Sun!</p>
+
+<input type=button value="Start Solar System" onclick="{
+  if (typeof myScene !== 'undefined') {
+     alert('The solar system is already running!')
+  } else {
+
+  myScene = new THREE.Scene();
+  myScene.background = new THREE.Color(0x050816);
+
+  myCamera = new THREE.PerspectiveCamera(60, 1.5, 0.1, 1000);
+  myCamera.position.set(0, 15, 22);
+  myCamera.lookAt(0,0,0);
+
+  myRenderer = new THREE.WebGLRenderer({antialias:true});
+  myRenderer.setSize(750,500);
+  myRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  document.getElementById('my3D').appendChild(myRenderer.domElement);
+
+  let myLight = new THREE.PointLight(0xffffff,3);
+  myLight.position.set(0,0,0);
+  myScene.add(myLight);
+
+  myScene.add(new THREE.AmbientLight(0xffffff,0.5));
+
+  // Create the Sun
+  mySun = new THREE.Mesh(
+     new THREE.SphereGeometry(1.2,32,32),
+     new THREE.MeshBasicMaterial({color:0xffcc00})
+  );
+
+  myScene.add(mySun);
+
+  // Create stars
+  let myStarsGeometry = new THREE.BufferGeometry();
+  let myStarPositions = [];
+
+  for(let i=0;i<1000;i++){
+     myStarPositions.push(
+       (Math.random()-0.5)*100,
+       (Math.random()-0.5)*100,
+       (Math.random()-0.5)*100
+     );
+  }
+
+  myStarsGeometry.setAttribute('position',
+     new THREE.Float32BufferAttribute(myStarPositions,3));
+
+  let myStars = new THREE.Points(
+     myStarsGeometry,
+     new THREE.PointsMaterial({color:0xffffff,size:0.12})
+  );
+
+  myScene.add(myStars);
+
+  // Planet information
+  myPlanets = [];
+
+  function myMakePlanet(mySize,myColor,myDistance,mySpeed){
+
+     let myPlanet = new THREE.Mesh(
+       new THREE.SphereGeometry(mySize,32,32),
+       new THREE.MeshStandardMaterial({color:myColor})
+     );
+
+     myScene.add(myPlanet);
+
+     myPlanets.push({
+       object:myPlanet,
+       distance:myDistance,
+       speed:mySpeed,
+       angle:Math.random()*Math.PI*2
+     });
+
+     let myOrbit = new THREE.Mesh(
+       new THREE.RingGeometry(myDistance-0.015,myDistance+0.015,100),
+       new THREE.MeshBasicMaterial({
+          color:0x555577,
+          side:THREE.DoubleSide
+       })
+     );
+
+     myOrbit.rotation.x = Math.PI/2;
+     myScene.add(myOrbit);
+  }
+
+  // Create all eight planets
+  myMakePlanet(0.12,0xaaaaaa,2,0.04);
+  myMakePlanet(0.22,0xffcc66,3,0.03);
+  myMakePlanet(0.24,0x3366ff,4,0.025);
+  myMakePlanet(0.18,0xff4422,5,0.02);
+  myMakePlanet(0.65,0xffaa33,7,0.012);
+  myMakePlanet(0.5,0xe6cc99,9,0.009);
+  myMakePlanet(0.38,0x66ffff,11,0.007);
+  myMakePlanet(0.36,0x3366ff,13,0.005);
+
+  myPaused = false;
+  mySpeed = 1;
+
+  function myRunAnimation(){
+
+     myAnimation = requestAnimationFrame(myRunAnimation);
+
+     if(myPaused == false){
+
+        mySun.rotation.y += 0.005 * mySpeed;
+
+        myPlanets.forEach(function(myPlanet){
+
+           myPlanet.angle += myPlanet.speed * mySpeed;
+
+           myPlanet.object.position.x =
+           Math.cos(myPlanet.angle)*myPlanet.distance;
+
+           myPlanet.object.position.z =
+           Math.sin(myPlanet.angle)*myPlanet.distance;
+
+           myPlanet.object.rotation.y += 0.01 * mySpeed;
+        });
+
+        myStars.rotation.y += 0.0002;
+     }
+
+     myRenderer.render(myScene,myCamera);
+  }
+
+  myRunAnimation();
+
+  }
+}">
+
+<input type=button value="Pause / Resume" onclick="{
+   if(typeof myPaused !== 'undefined'){
+      myPaused = !myPaused;
+   }
+}">
+
+<input type=button value="Speed Up" onclick="{
+   if(typeof mySpeed !== 'undefined'){
+      mySpeed = Math.min(mySpeed + 0.5, 5);
+   }
+}">
+
+<input type=button value="Slow Down" onclick="{
+   if(typeof mySpeed !== 'undefined'){
+      mySpeed = Math.max(mySpeed - 0.5, 0.5);
+   }
+}">
+
+<br><br>
+
+<div id="my3D" style="width:95%; max-width:750px; margin:auto;"></div>
+
+<br>
+
+<h3>Planet Information</h3>
+
+<p>Here are some interesting facts about the planets:</p>
+
+<ul style="text-align:left; display:inline-block;">
+<li>Mercury is the closest planet to the Sun.</li>
+<li>Venus is the hottest planet.</li>
+<li>Earth is the only planet currently known to support life.</li>
+<li>Mars is known as the Red Planet.</li>
+<li>Jupiter is the largest planet.</li>
+<li>Saturn is famous for its rings.</li>
+<li>Uranus rotates on its side.</li>
+<li>Neptune has extremely strong winds.</li>
+</ul>
+
+<h3>What I Learned</h3>
+
+<p><b>Plotly:</b> I used Plotly to create a graph showing the orbits of all eight planets.</p>
+
+<p><b>Three.js:</b> I used Three.js to create a 3D solar system with planets, stars, lighting and animation.</p>
+
+<p><b>JavaScript:</b> I used functions, arrays, loops and variables to make the planets move around the Sun.</p>
+
+<p>I think this project is interesting because it shows how coding can be used to create interactive 3D objects and graphs.</p>
+
+<h3>Thanks for Exploring Space!</h3>
+
+<p>Created by Fred.</p>
+
+</body>
+
