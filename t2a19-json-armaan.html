@@ -1,88 +1,243 @@
 
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>t2a19-json-fred</title>
+
 <h1 align="center">t2a19-json-fred.html</h1>
 
 <h2 align="center">My JSON Animal Viewer</h2>
 
-<p>Welcome to my JSON project! This website uses an API to get random animal pictures and display information from the internet.</p>
+</head>
 
-<p>Choose an animal from the list below to see a random picture.</p>
+<body bgcolor="#D6F5D6">
+
+<h1 align="center">🐾 My JSON Animal Viewer 🐾</h1>
+
+<p align="center">
+Welcome to my JSON project! This website uses APIs to get random animal pictures and display information from the internet.
+</p>
+
+<p align="center">
+Choose an animal from the list below to see a random picture!
+</p>
+
+<br>
+
+<h3>Select Your Animal:</h3>
+
+<select id="myAnimal">
+    <option value="dog">Dog 🐶</option>
+    <option value="cat">Cat 🐱</option>
+    <option value="fox">Fox 🦊</option>
+    <option value="duck">Duck 🦆</option>
+    <option value="shiba">Shiba Inu 🐕</option>
+    <option value="panda">Red Panda 🐼</option>
+</select>
+
+<input type="button" value="Get Animal!" onclick="myGetAnimal()">
+
+<input type="button" value="Random Animal!" onclick="myRandomAnimal()">
+
+<br><br>
+
+<div id="myDiv1">
+
+<h3>Your animal will appear here!</h3>
+
+<p>Choose an animal and click Get Animal!</p>
+
+</div>
 
 <script>
-    async function fetchData(url){
-      try {
-        document.getElementById('myDiv1').innerHTML = 'Loading...';
+
+// Main function to get animal data
+
+async function fetchData(url, animal){
+
+    try {
+
+        document.getElementById('myDiv1').innerHTML =
+        '<h3>Loading your animal...</h3>';
 
         const response = await fetch(url);
+
+        if (!response.ok){
+            throw new Error('API could not load');
+        }
+
         const data = await response.json();
 
         console.log(data);
 
+        // Display JSON information
+
         const myJson = JSON.stringify(data, null, 2);
 
-        document.getElementById('myDiv1').innerHTML = '<h3>JSON Information:</h3>';
+        const myDiv = document.getElementById('myDiv1');
 
-        document.getElementById('myDiv1').innerHTML += `<pre>${myJson}</pre>`;
+        myDiv.innerHTML = '';
 
-        if (data.image) {
-          document.getElementById('myDiv1').innerHTML +=
-          `<h3>Here is your random fox!</h3>
-          <img src="${data.image}" alt="Random Fox" style="max-width: 100%; height: auto;">`;
+        const jsonTitle = document.createElement('h3');
+        jsonTitle.innerHTML = 'JSON Information:';
+
+        const jsonOutput = document.createElement('pre');
+        jsonOutput.textContent = myJson;
+
+        myDiv.appendChild(jsonTitle);
+        myDiv.appendChild(jsonOutput);
+
+        // Find the animal picture
+
+        let imageUrl = '';
+
+        if (animal == 'dog'){
+            imageUrl = data.message;
         }
 
-        if (data.message) {
-          document.getElementById('myDiv1').innerHTML +=
-          `<h3>Here is your random dog!</h3>
-          <img src="${data.message}" alt="Random Dog" style="max-width: 100%; height: auto;">`;
+        if (animal == 'cat'){
+            imageUrl = data[0].url;
         }
 
-      } catch(error) {
+        if (animal == 'fox'){
+            imageUrl = data.image;
+        }
+
+        if (animal == 'duck'){
+            imageUrl = data.url;
+        }
+
+        if (animal == 'shiba'){
+            imageUrl = data[0];
+        }
+
+        if (animal == 'panda'){
+            imageUrl = data.image;
+        }
+
+        // Display animal picture
+
+        if (imageUrl){
+
+            const imageTitle = document.createElement('h2');
+            imageTitle.textContent =
+            'Here is your random ' + animal + '!';
+
+            const myImage = document.createElement('img');
+
+            myImage.src = imageUrl;
+            myImage.alt = 'Random ' + animal;
+
+            myImage.style.maxWidth = '400px';
+            myImage.style.maxHeight = '400px';
+            myImage.style.border = '5px solid green';
+            myImage.style.borderRadius = '15px';
+
+            myDiv.appendChild(imageTitle);
+            myDiv.appendChild(myImage);
+
+        }
+
+    } catch(error) {
+
         document.getElementById('myDiv1').innerHTML =
-        'Sorry, something went wrong. Try again!';
+        '<h3>Sorry!</h3>Something went wrong. Try again!';
+
         console.log(error);
-      }
-   }
+
+    }
+
+}
+
+
+// Get selected animal
+
+function myGetAnimal(){
+
+    let animal = document.getElementById('myAnimal').value;
+
+    if (animal == 'dog'){
+        fetchData('https://dog.ceo/api/breeds/image/random', 'dog');
+    }
+
+    if (animal == 'cat'){
+        fetchData('https://api.thecatapi.com/v1/images/search', 'cat');
+    }
+
+    if (animal == 'fox'){
+        fetchData('https://randomfox.ca/floof/', 'fox');
+    }
+
+    if (animal == 'duck'){
+        fetchData('https://random-d.uk/api/v2/random', 'duck');
+    }
+
+    if (animal == 'shiba'){
+        fetchData('https://shibe.online/api/shibes?count=1&urls=true&httpsUrls=true', 'shiba');
+    }
+
+    if (animal == 'panda'){
+
+        fetchData('https://some-random-api.com/animal/red_panda', 'panda');
+
+    }
+
+}
+
+
+// Choose a random animal
+
+function myRandomAnimal(){
+
+    let animals = [
+        'dog',
+        'cat',
+        'fox',
+        'duck',
+        'shiba',
+        'panda'
+    ];
+
+    let randomNumber = Math.floor(Math.random() * animals.length);
+
+    let randomAnimal = animals[randomNumber];
+
+    document.getElementById('myAnimal').value = randomAnimal;
+
+    myGetAnimal();
+
+}
+
 </script>
 
-<p>Pick which animal you want to see:</p>
-
-<select id="mySelect" size="1" onchange="fetchData(this.value)">
-    <option value="">Choose an animal</option>
-    <option value="https://randomfox.ca/floof/">Random Fox</option>
-    <option value="https://random.dog/woof.json">Random Dog</option>
-</select>
-
 <br><br>
 
-<input type="button" value="Get Another Animal" onclick="{
-   if (document.getElementById('mySelect').value == '') {
-      alert('Please choose an animal first!');
-   } else {
-      fetchData(document.getElementById('mySelect').value);
-   }
-}">
+<h3>How to use my JSON Animal Viewer</h3>
 
-<br><br>
+<ul>
+    <li>Choose an animal from the dropdown menu.</li>
+    <li>Click Get Animal to see a random picture.</li>
+    <li>Look at the JSON information underneath.</li>
+    <li>Click Random Animal to choose a surprise animal.</li>
+    <li>Try different animals and compare their JSON data!</li>
+</ul>
 
-<p>Animal information and pictures will show up below:</p>
+<h3>What I Learned</h3>
 
-<div id="myDiv1">Choose an animal to get started!</div>
+<p>
+I learned that JSON stands for JavaScript Object Notation. It is used to store and transfer information between websites and servers.
+</p>
+
+<p>
+I also learned how to use fetch() to get information from APIs on the internet.
+</p>
+
+<p>
+My favourite part of this project is being able to get random animal pictures using different APIs!
+</p>
 
 <br>
 
-<p>What is JSON?</p>
-
-<p>JSON stands for JavaScript Object Notation. It is used to store and send information between websites and programs. This project uses fetch to get information from an API and display it on my webpage.</p>
-
-<p>Thanks for checking out my JSON project!</p>
-
-<br>
-
-<h3>My JSON Research</h3>
-
-<p>JSON is a format that stores information using key and value pairs. It is commonly used when websites communicate with other websites.</p>
-
-<p>The fetch command gets information from an online API. The response.json() command changes the information into JavaScript so I can use it in my code.</p>
-
-<p>The JSON.stringify() command changes the information back into readable text so I can display it on my webpage.</p>
-
-<p>Source: RandomFox API - https://randomfox.ca/floof/</p>
+</body>
+</html>
