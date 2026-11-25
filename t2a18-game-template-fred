@@ -1,0 +1,175 @@
+
+<body id="myBody" style="background-repeat:repeat; background-size:80%" background="myBackground01.jpg">
+
+<h1 align=center>t2a18-game-template-fred</h1>
+
+<h2 align=center>My Adventure Game</h2>
+
+<p align=center>Welcome to my game! Try to move your player around and avoid hitting the enemy.</p>
+
+<p align=center>Use the buttons below to move your character. Try to survive as long as possible!</p>
+
+<br><br><br><br>
+
+<script>
+
+   // global variables here
+   let myGlobalX = 0
+   let myClock
+   let myScore = 0
+   let myGameOver = false
+
+   // global functions here
+
+function myHitOther(my1,my2){
+   left1   = parseInt(document.getElementById(my1).style.left)
+   right1  = left1 + parseInt(document.getElementById(my1).style.width)
+   top1    = parseInt(document.getElementById(my1).style.top)
+   bottom1 = top1 + parseInt(document.getElementById(my1).style.height)
+
+   left2   = parseInt(document.getElementById(my2).style.left)
+   right2  = left2 + parseInt(document.getElementById(my2).style.width)
+   top2    = parseInt(document.getElementById(my2).style.top)
+   bottom2 = top2 + parseInt(document.getElementById(my2).style.height)
+
+   if ((right1 >= left2) &&
+       (bottom1 >= top2) &&
+       (left1 <= right2) &&
+       (top1 <= bottom2)){
+       return true
+   }
+   return false
+}
+
+
+function myCheckHit(){
+
+   if (myGameOver == false){
+
+      if (myHitOther('myImg01','myImg02')){
+         alert('You lose! Your final score was ' + myScore)
+         myGameOver = true
+         clearInterval(myClock)
+         document.getElementById('myScore').innerHTML = 'Game Over! Final Score: ' + myScore
+      }
+
+   }
+
+}  // end of myCheckHit()
+
+
+function myMoveRight(){
+   if (myGameOver == false){
+      document.getElementById('myImg01').style.left =
+      parseInt(document.getElementById('myImg01').style.left) + 10 + 'px'
+      myCheckHit()
+   }
+}
+
+function myMoveLeft(){
+   if (myGameOver == false){
+      document.getElementById('myImg01').style.left =
+      parseInt(document.getElementById('myImg01').style.left) - 10 + 'px'
+      myCheckHit()
+   }
+}
+
+function myMoveUp(){
+   if (myGameOver == false){
+      document.getElementById('myImg01').style.top =
+      parseInt(document.getElementById('myImg01').style.top) - 10 + 'px'
+      myCheckHit()
+   }
+}
+
+function myMoveDown(){
+   if (myGameOver == false){
+      document.getElementById('myImg01').style.top =
+      parseInt(document.getElementById('myImg01').style.top) + 10 + 'px'
+      myCheckHit()
+   }
+}
+
+function myRestart(){
+   clearInterval(myClock)
+   myScore = 0
+   myGameOver = false
+   myGlobalX = 0
+
+   document.getElementById('myImg01').style.left = '50px'
+   document.getElementById('myImg01').style.top = '100px'
+
+   document.getElementById('myImg02').style.left = '250px'
+   document.getElementById('myImg02').style.top = '100px'
+
+   document.getElementById('myScore').innerHTML = 'Score: 0'
+}
+
+</script>
+
+<img id="myImg01" style="position:absolute; width:100px; height:80px; top:100px; left:50px;" src="myImage01.jpg">
+
+<img id="myImg02" style="position:absolute; width:100px; height:80px; top:100px; left:250px;" src="myImage02.jpg">
+
+<br><br><br><br><br><br><br><br>
+
+<h3 id="myScore">Score: 0</h3>
+
+<p>Move your player using these buttons:</p>
+
+<input type=button value="Move Left" onclick="{
+   myMoveLeft()
+}">
+
+<input type=button value="Move Right" onclick="{
+   myMoveRight()
+}">
+
+<input type=button value="Move Up" onclick="{
+   myMoveUp()
+}">
+
+<input type=button value="Move Down" onclick="{
+   myMoveDown()
+}">
+
+<br><br>
+
+<p>Click below to move the background:</p>
+
+<input type=button value="Auto Background Left" onclick="{
+  clearInterval(myClock)
+  myClock = setInterval(function(){
+      myGlobalX -= 5
+      let myTemp = myGlobalX + 'px 0px'
+      document.getElementById('myBody').style.backgroundPosition = myTemp
+  }, 100)
+}">
+
+<input type=button value="Stop Background" onclick="{
+   clearInterval(myClock)
+}">
+
+<br><br>
+
+<p>Want to try again? Click restart!</p>
+
+<input type=button value="Restart Game" onclick="{
+   myRestart()
+   alert('Game restarted! Good luck!')
+}">
+
+<br><br>
+
+<p>Game instructions:</p>
+
+<ul>
+   <li>Use the movement buttons to control your player.</li>
+   <li>Try to avoid touching the other image.</li>
+   <li>If you touch the enemy, the game ends.</li>
+   <li>Click restart to play again.</li>
+</ul>
+
+<p>Good luck and have fun playing my game!</p>
+
+</body>
