@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>t1a15-mandelbrot-prompt-fred</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+        font-family: Arial, sans-serif;
+    }
+
+    canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        cursor: crosshair;
+    }
+
+    #myHint {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        padding: 12px 18px;
+        color: white;
+        background: rgba(25, 25, 25, 0.85);
+        border: 1px solid #00ffff;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 5;
+        font-size: 14px;
+    }
+
+    #myHint:hover {
+        background: #123b50;
+    }
+
+    #myInfo {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 85%;
+        max-width: 550px;
+        padding: 25px;
+        background: #111;
+        color: white;
+        border: 2px solid #00ffff;
+        border-radius: 12px;
+        z-index: 10;
+        line-height: 1.6;
+        text-align: center;
+    }
+
+    #myInfo h2 {
+        color: #00ffff;
+    }
+
+    #myInfo button {
+        background: #00cccc;
+        color: black;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    #myInfo button:hover {
+        background: #66ffff;
+    }
+
+    #myStatus {
+        position: fixed;
+        bottom: 12px;
+        left: 15px;
+        color: #00ffff;
+        font-size: 13px;
+        pointer-events: none;
+    }
+</style>
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="myHint" onclick="myToggleInfo()">
+    ? Mandelbrot Explorer - Click for Info
+</div>
+
+<div id="myInfo">
+
+    <h2>The Mandelbrot Fractal</h2>
+
+    <p>
+        The Mandelbrot set is a mathematical fractal created by
+        repeatedly calculating a simple equation.
+    </p>
+
+    <h3 style="color:#ff66ff;">
+        Z<sub>n+1</sub> = Z<sub>n</sub><sup>2</sup> + C
+    </h3>
+
+    <p>
+        Every point on the screen represents a complex number.
+        The computer repeatedly applies this formula to each point.
+    </p>
+
+    <p>
+        If the numbers stay bounded, the point belongs to the
+        Mandelbrot set and is coloured black.
+    </p>
+
+    <p>
+        If the numbers escape towards infinity, the point gets
+        a colour based on how quickly it escapes.
+    </p>
+
+    <p>
+        This creates the colourful patterns and incredible
+        shapes that you can explore by zooming in.
+    </p>
+
+    <p>
+        <b>Controls:</b><br>
+        Move your mouse to position the zoom preview.<br>
+        Scroll to change the zoom level.<br>
+        Click to zoom into the selected area.
+    </p>
+
+    <button onclick="myToggleInfo()">Close</button>
+
+</div>
+
+<div id="myStatus">Loading Mandelbrot...</div>
+
+<script>
+
+// Canvas setup
+const myCanvas = document.getElementById("myCanvas");
+const myContext = myCanvas.getContext("2d", {
+    alpha: false
+});
+
+const myStatus = document.getElementById("myStatus");
+
+// Mandelbrot view settings
+let myCenterX = -0.5;
+let myCenterY = 0;
+let myViewWidth = 4;
+
+let myZoomFactor = 2;
+
+let myMouseX = window.innerWidth / 2;
+let myMouseY = window.innerHeight / 2;
+
+let myCanvasWidth = 0;
+let myCanvasHeight = 0;
+
+let myRenderNumber = 0;
+let myIsRendering = false;
+
+// Colour settings
+let myColourCycle = 0;
+let myMaxIterations = 100;
+
+// Preview settings
+let myPreviewVisible = true;
+
+
+// Resize canvas
+function myResizeCanvas() {
+
+    const myPixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+
+    myCanvasWidth = window.innerWidth;
+    myCanvasHeight = window.innerHeight;
+
+    myCanvas.width = Math.floor(myCanvasWidth * myPixelRatio);
+    myCanvas.height = Math.floor(myCanvasHeight * myPixelRatio);
+
+    myContext.setTransform(
+        myPixelRatio, 0, 0, myPixelRatio, 0, 0
+    );
+
+    myRenderFractal();
+}
+
+
+// Convert screen position into complex coordinates
+function myScreenToComplex(myX, myY) {
+
+    const myViewHeight = myViewWidth * myCanvasHeight / myCanvasWidth;
+
+    return {
+        x: myCenterX + (myX / myCanvasWidth - 0.5) * myViewWidth,
+        y: myCenterY + (myY / myCanvasHeight - 0.5) * myViewHeight
+    };
+}
+
+
+// Calculate Mandelbrot iterations
+function myCalculateMandelbrot(myReal, myImaginary) {
+
+    let myZx = 0;
+    let myZy = 0;
+
+    let myZxSquared = 0;
+    let myZySquared = 0;
+
+    let myIteration = 0;
+
+    while (
+        myZxSquared + myZySquared <= 256 &&
+        myIteration < myMaxIterations
+    ) {
+
+        myZy = 2 * myZx * myZy + myImaginary;
+        myZx = myZxSquared - myZySquared + myReal;
+
+        myZxSquared = myZx * myZx;
+        myZySquared = myZy * myZy;
+
+        myIteration++;
+    }
+
+    if (myIteration >= myMaxIterations) {
+        return -1;
+    }
+
+    // Smooth colouring
+    const myMagnitude = Math.sqrt(myZxSquared + myZySquared);
+
+    const mySmoothValue =
+        myIteration + 1 -
+        Math.log2(Math.max(1, Math.log2(myMagnitude)));
+
+    return mySmoothValue;
+}
+
+
+// Generate vibrant fractal colours
+function myGetColour(myValue) {
+
+    if (myValue < 0) {
+        return [0, 0, 0];
+    }
+
+    const myHue = (
+        myValue * 12 + myColourCycle
+    ) % 360;
+
+    const mySaturation = 95;
+    const myLightness = 55;
+
+    const myC = (1 - Math.abs(2 * myLightness / 100 - 1))
+        * mySaturation / 100;
+
+    const myX = myC * (
+        1 - Math.abs((myHue / 60) % 2 - 1)
+    );
+
+    const myM = myLightness / 100 - myC / 2;
+
+    let myR = 0;
+    let myG = 0;
+    let myB = 0;
+
+    if (myHue < 60) {
+        myR = myC;
+        myG = myX;
+    } else if (myHue < 120) {
+        myR = myX;
+        myG = myC;
+    } else if (myHue < 180) {
+        myG = myC;
+        myB = myX;
+    } else if (myHue < 240) {
+        myG = myX;
+        myB = myC;
+    } else if (myHue < 300) {
+        myR = myX;
+        myB = myC;
+    } else {
+        myR = myC;
+        myB = myX;
+    }
+
+    return [
+        Math.round((myR + myM) * 255),
+        Math.round((myG + myM) * 255),
+        Math.round((myB + myM) * 255)
+    ];
+}
+
+
+// Render the fractal
+async function myRenderFractal() {
+
+    if (!myCanvasWidth || !myCanvasHeight) return;
+
+    const myCurrentRender = ++myRenderNumber;
+
+    myIsRendering = true;
+
+    myMaxIterations = Math.min(
+        2500,
+        Math.max(100, 100 + Math.floor(Math.log2(1 / myViewWidth) * 35))
+    );
+
+    myStatus.textContent = "Rendering fractal...";
+
+    const myImage = myContext.createImageData(
+        myCanvasWidth,
+        myCanvasHeight
+    );
+
+    const myPixels = myImage.data;
+
+    const myViewHeight = myViewWidth *
+        myCanvasHeight / myCanvasWidth;
+
+    const myScaleX = myViewWidth / myCanvasWidth;
+    const myScaleY = myViewHeight / myCanvasHeight;
+
+    // Render in sections to keep the page responsive
+    const myRowsPerFrame = 12;
+
+    for (
+        let myStartY = 0;
+        myStartY < myCanvasHeight;
+        myStartY += myRowsPerFrame
+    ) {
+
+        if (myCurrentRender !== myRenderNumber) return;
+
+        const myEndY = Math.min(
+            myStartY + myRowsPerFrame,
+            myCanvasHeight
+        );
+
+        for (let myY = myStartY; myY < myEndY; myY++) {
+
+            for (let myX = 0; myX < myCanvasWidth; myX++) {
+
+                const myReal =
+                    myCenterX +
+                    (myX - myCanvasWidth / 2) * myScaleX;
+
+                const myImaginary =
+                    myCenterY +
+                    (myY - myCanvasHeight / 2) * myScaleY;
+
+                const myValue = myCalculateMandelbrot(
+                    myReal,
+                    myImaginary
+                );
+
+                const myColour = myGetColour(myValue);
+
+                const myIndex = (myY * myCanvasWidth + myX) * 4;
+
+                myPixels[myIndex] = myColour[0];
+                myPixels[myIndex + 1] = myColour[1];
+                myPixels[myIndex + 2] = myColour[2];
+                myPixels[myIndex + 3] = 255;
+            }
+        }
+
+        // Allow the browser to update between sections
+        await new Promise(myResolve =>
+            requestAnimationFrame(myResolve)
+        );
+    }
+
+    if (myCurrentRender !== myRenderNumber) return;
+
+    myContext.putImageData(myImage, 0, 0);
+
+    myIsRendering = false;
+
+    myStatus.textContent =
+        "Zoom: " + (4 / myViewWidth).toFixed(2) + "x";
+}
+
+
+// Draw dashed zoom preview
+function myDrawPreview() {
+
+    if (!myPreviewVisible) return;
+
+    const myBoxWidth = myCanvasWidth / myZoomFactor;
+    const myBoxHeight = myCanvasHeight / myZoomFactor;
+
+    const myLeft = myMouseX - myBoxWidth / 2;
+    const myTop = myMouseY - myBoxHeight / 2;
+
+    myContext.save();
+
+    myContext.setTransform(
+        window.devicePixelRatio > 1.5 ? 1.5 :
+        window.devicePixelRatio || 1,
+        0, 0,
+        window.devicePixelRatio > 1.5 ? 1.5 :
+        window.devicePixelRatio || 1,
+        0, 0
+    );
+
+    myContext.strokeStyle = "#00ffff";
+    myContext.lineWidth = 2;
+    myContext.setLineDash([10, 6]);
+
+    myContext.strokeRect(
+        myLeft,
+        myTop,
+        myBoxWidth,
+        myBoxHeight
+    );
+
+    myContext.setLineDash([]);
+
+    myContext.fillStyle = "rgba(0, 255, 255, 0.08)";
+    myContext.fillRect(
+        myLeft,
+        myTop,
+        myBoxWidth,
+        myBoxHeight
+    );
+
+    myContext.restore();
+}
+
+
+// Mouse movement
+myCanvas.onmousemove = function(myEvent) {
+
+    const myRect = myCanvas.getBoundingClientRect();
+
+    myMouseX = myEvent.clientX - myRect.left;
+    myMouseY = myEvent.clientY - myRect.top;
+
+    myDrawPreview();
+};
+
+
+// Mouse wheel controls zoom
+myCanvas.onwheel = function(myEvent) {
+
+    myEvent.preventDefault();
+
+    if (myEvent.deltaY < 0) {
+        myZoomFactor *= 1.25;
+    } else {
+        myZoomFactor /= 1.25;
+    }
+
+    myZoomFactor = Math.max(
+        1.1,
+        Math.min(20, myZoomFactor)
+    );
+
+    myDrawPreview();
+};
+
+
+// Click to zoom into preview area
+myCanvas.onclick = function(myEvent) {
+
+    const myRect = myCanvas.getBoundingClientRect();
+
+    myMouseX = myEvent.clientX - myRect.left;
+    myMouseY = myEvent.clientY - myRect.top;
+
+    const myNewCenter = myScreenToComplex(
+        myMouseX,
+        myMouseY
+    );
+
+    myCenterX = myNewCenter.x;
+    myCenterY = myNewCenter.y;
+
+    myViewWidth /= myZoomFactor;
+
+    // Reset preview zoom for the next exploration
+    myZoomFactor = 2;
+
+    myRenderFractal();
+};
+
+
+// Toggle information modal
+function myToggleInfo() {
+
+    const myInfo = document.getElementById("myInfo");
+
+    if (myInfo.style.display === "block") {
+        myInfo.style.display = "none";
+    } else {
+        myInfo.style.display = "block";
+    }
+}
+
+
+// Colour cycling
+function myAnimateColours() {
+
+    myColourCycle = (myColourCycle + 0.4) % 360;
+
+    // Update colours periodically
+    // without changing the mathematical view
+    if (!myIsRendering) {
+        myRenderFractal();
+    }
+
+    requestAnimationFrame(myAnimateColours);
+}
+
+
+// Start the Mandelbrot explorer
+async function myStartExplorer() {
+
+    myResizeCanvas();
+
+    await myRenderFractal();
+
+    myAnimateColours();
+}
+
+
+// Window resize
+window.onresize = function() {
+    myResizeCanvas();
+};
+
+
+// Start everything
+myStartExplorer();
+
+</script>
+
+</body>
+</html>
