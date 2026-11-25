@@ -1,1 +1,123 @@
 
+
+<head>
+<script>
+
+// All functions go here
+
+// STEP 1: Define a global object named myHero
+let myHero = {
+   name: 'Captain Code',
+   power: 100,
+   comment: 'Ready for training!'
+};
+
+// STEP 2: Write a function named trainHero()
+function trainHero(){
+
+   myHero.power = myHero.power - 10
+
+   if (myHero.power > 70){
+      myHero.comment = 'Amazing! You have lots of energy!'
+   } else if (myHero.power > 40){
+      myHero.comment = 'Good job! Keep training!'
+   } else if (myHero.power > 0){
+      myHero.comment = 'You are getting tired. Take a break soon!'
+   } else {
+      alert('Your hero is out of energy! Power is being restored.')
+      myHero.comment = 'Captain Code fainted! Energy has been reset.'
+      myHero.power = 100
+   }
+
+}
+
+// Reset the hero back to full power
+function resetHero(){
+   myHero.power = 100
+   myHero.comment = 'Ready for training again!'
+   showHero()
+}
+
+// Display the hero information
+function showHero(){
+   document.getElementById('myDiv01').innerHTML =
+   'Hero Name: ' + myHero.name +
+   '<br>Remaining Power: ' + myHero.power +
+   '<br>Coach Comment: ' + myHero.comment
+
+   document.getElementById('myProgress').value = myHero.power
+}
+
+</script>
+</head>
+
+<h2 align=center>Stateful Hero Energy Tracker</h2>
+
+Student Name: ___________________, Date: ___________________
+
+Assignment Title: Stateful Object Assignment
+
+<br><br>
+
+<fieldset style="background-color: #f0f4f8; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+
+<legend><strong>Assignment Prompt:</strong></legend>
+
+1. Create a hero object named Captain Code.
+<br>
+2. Give your hero 100 starting power.
+<br>
+3. Click the train button to use 10 power each time.
+<br>
+4. Watch your hero's comments change as the power gets lower.
+<br>
+5. If power reaches 0, your hero will faint and recharge.
+<br>
+6. Try to see how many times you can train your hero!
+
+</fieldset>
+
+<h3>Meet Your Hero!</h3>
+
+<p>This is Captain Code. He is ready to train and become stronger, but make sure he doesn't run out of energy!</p>
+
+<div id="myDiv01">
+   Hero Name: Captain Code
+   <br>
+   Remaining Power: 100
+   <br>
+   Coach Comment: Ready for training!
+</div>
+
+<br>
+
+<h3>Hero Energy Bar</h3>
+
+<progress id="myProgress" value="100" max="100" style="width:300px; height:25px;"></progress>
+
+<br><br>
+
+<input type=button value="Train Hero (-10 Power)" onclick="{
+   trainHero()
+   showHero()
+}">
+
+<input type=button value="Reset Hero" onclick="{
+   resetHero()
+   alert('Captain Code is ready again!')
+}">
+
+<br><br>
+
+<h3>Training Tips</h3>
+
+<ul>
+   <li>100-80 power: Your hero is full of energy.</li>
+   <li>70-50 power: Your hero is doing great.</li>
+   <li>40-10 power: Your hero is getting tired.</li>
+   <li>0 power: Your hero faints and gets recharged.</li>
+</ul>
+
+<p>Keep training Captain Code and see how long he can last!</p>
+
+<p>Thanks for trying my Stateful Hero Energy Tracker!</p>
