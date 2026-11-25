@@ -1,88 +1,392 @@
 
-<h1 align=center>t2a20-sort-fred.html</h1>
+<!DOCTYPE html>
+<html>
 
-<h2 align=center>My Number Sorting Program</h2>
+<head>
+<title>t2a20-sort-fred</title>
 
-<p>Welcome to my sorting program! This page creates random numbers and lets you sort them from smallest to largest.</p>
+<style>
+
+body {
+    background-color: #D6EAF8;
+    font-family: Arial;
+    margin: 25px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #154360;
+}
+
+button, input[type=button] {
+    padding: 10px;
+    margin: 5px;
+    background-color: #2874A6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover, input[type=button]:hover {
+    background-color: #1B4F72;
+}
+
+#myDiv01 {
+    background-color: white;
+    border: 2px solid #2874A6;
+    padding: 15px;
+    min-height: 80px;
+    border-radius: 8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>t2a20-sort-fred.html</h1>
+
+<h2>My Number Sorting Program</h2>
+
+<p>Welcome to my sorting program! Create random numbers, organize them, search them and calculate statistics.</p>
 
 <script>
-   let myMax = 3      // 52 when working
-   let myCards = new Array(myMax)
+
+// Global variables
+
+let myMax = 10
+let myCards = []
+let myGenerated = false
+
+// Create random numbers
+
+function mySetRandom(){
+
+    myMax = parseInt(document.getElementById('myAmount').value)
+
+    if (isNaN(myMax) || myMax < 3 || myMax > 100){
+        alert('Please enter a number between 3 and 100!')
+        return
+    }
+
+    myCards = []
+
+    for (let myLoop = 0; myLoop < myMax; myLoop++){
+
+        myCards[myLoop] = Math.floor(Math.random() * 101)
+
+    }
+
+    myGenerated = true
+
+    myShowNumbers()
+
+}
+
+// Show numbers
+
+function myShowNumbers(){
+
+    if (!myGenerated){
+        document.getElementById('myDiv01').innerHTML =
+        'Please create random numbers first!'
+        return
+    }
+
+    let myTemp = '<h3>Your Numbers:</h3>'
+
+    for (let myLoop = 0; myLoop < myMax; myLoop++){
+
+        myTemp += myLoop + ' = ' + myCards[myLoop] + '<br>'
+
+    }
+
+    document.getElementById('myDiv01').innerHTML = myTemp
+
+}
+
+// Sort smallest to largest using bubble sort
+
+function mySortAscending(){
+
+    if (!myGenerated){
+        alert('Create numbers first!')
+        return
+    }
+
+    for (let myLoop = 0; myLoop < myMax - 1; myLoop++){
+
+        for (let myLoop2 = 0; myLoop2 < myMax - 1 - myLoop; myLoop2++){
+
+            if (myCards[myLoop2] > myCards[myLoop2 + 1]){
+
+                let myTemp = myCards[myLoop2]
+
+                myCards[myLoop2] = myCards[myLoop2 + 1]
+
+                myCards[myLoop2 + 1] = myTemp
+
+            }
+
+        }
+
+    }
+
+    myShowNumbers()
+
+}
+
+// Sort largest to smallest
+
+function mySortDescending(){
+
+    if (!myGenerated){
+        alert('Create numbers first!')
+        return
+    }
+
+    for (let myLoop = 0; myLoop < myMax - 1; myLoop++){
+
+        for (let myLoop2 = 0; myLoop2 < myMax - 1 - myLoop; myLoop2++){
+
+            if (myCards[myLoop2] < myCards[myLoop2 + 1]){
+
+                let myTemp = myCards[myLoop2]
+
+                myCards[myLoop2] = myCards[myLoop2 + 1]
+
+                myCards[myLoop2 + 1] = myTemp
+
+            }
+
+        }
+
+    }
+
+    myShowNumbers()
+
+}
+
+// Sort and show
+
+function mySortAndShow(){
+
+    mySortAscending()
+
+}
+
+// Shuffle numbers
+
+function myShuffle(){
+
+    if (!myGenerated){
+        alert('Create numbers first!')
+        return
+    }
+
+    for (let i = myCards.length - 1; i > 0; i--){
+
+        let j = Math.floor(Math.random() * (i + 1))
+
+        let temp = myCards[i]
+
+        myCards[i] = myCards[j]
+
+        myCards[j] = temp
+
+    }
+
+    myShowNumbers()
+
+}
+
+// Find biggest and smallest
+
+function myFindMinMax(){
+
+    if (!myGenerated){
+        alert('Create numbers first!')
+        return
+    }
+
+    let myMin = Math.min(...myCards)
+
+    let myMaxNumber = Math.max(...myCards)
+
+    document.getElementById('myDiv01').innerHTML =
+    '<h3>Number Statistics</h3>' +
+    'Smallest Number: ' + myMin + '<br>' +
+    'Largest Number: ' + myMaxNumber
+
+}
+
+// Calculate total and average
+
+function myStatistics(){
+
+    if (!myGenerated){
+        alert('Create numbers first!')
+        return
+    }
+
+    let myTotal = 0
+
+    for (let i = 0; i < myCards.length; i++){
+
+        myTotal += myCards[i]
+
+    }
+
+    let myAverage = myTotal / myCards.length
+
+    document.getElementById('myDiv01').innerHTML =
+    '<h3>Math Statistics</h3>' +
+    'Total: ' + myTotal + '<br>' +
+    'Average: ' + myAverage.toFixed(2) + '<br>' +
+    'Number Count: ' + myCards.length
+
+}
+
+// Remove duplicate numbers
+
+function myRemoveDuplicates(){
+
+    if (!myGenerated){
+        alert('Create numbers first!')
+        return
+    }
+
+    myCards = [...new Set(myCards)]
+
+    myMax = myCards.length
+
+    myShowNumbers()
+
+}
+
+// Search for a number
+
+function mySearch(){
+
+    if (!myGenerated){
+        alert('Create numbers first!')
+        return
+    }
+
+    let mySearchNumber = parseInt(document.getElementById('mySearchBox').value)
+
+    if (isNaN(mySearchNumber)){
+        alert('Please enter a valid number!')
+        return
+    }
+
+    let myFound = myCards.includes(mySearchNumber)
+
+    if (myFound){
+
+        document.getElementById('myDiv01').innerHTML =
+        'Found! The number ' + mySearchNumber + ' is in the list.'
+
+    } else {
+
+        document.getElementById('myDiv01').innerHTML =
+        'The number ' + mySearchNumber + ' was not found.'
+
+    }
+
+}
+
+// Reset numbers
+
+function myReset(){
+
+    myCards = []
+
+    myGenerated = false
+
+    myMax = 10
+
+    document.getElementById('myDiv01').innerHTML =
+    'Numbers reset! Click Set Random to start again.'
+
+}
+
 </script>
 
-<p>Step 1: Click Set Random to create some random numbers.</p>
+<hr>
 
-<input type=button value="Set Random" onclick="{
-  for ( let myLoop = 0; myLoop < myMax; myLoop++){
-     myCards[myLoop] = Math.floor(Math.random()*10)
-  }
-  document.getElementById('myDiv01').innerHTML = 'Random numbers have been created! Click Show to see them.'
-}">
+<h3>Step 1: Choose how many numbers you want</h3>
 
-<br><br>
+<p>You can generate between 3 and 100 numbers.</p>
 
-<p>Step 2: Click Show to see the numbers you generated.</p>
+<input type="number" id="myAmount" value="10" min="3" max="100">
 
-<input type=button value="Show Numbers" onclick="{
-  let myTemp = ''
-  for ( let myLoop = 0; myLoop < myMax; myLoop++){
-     myTemp += myLoop + ' = ' + myCards[myLoop] + '<br>'
-  }
-  document.getElementById('myDiv01').innerHTML = myTemp
-}">
+<input type="button" value="Set Random" onclick="mySetRandom()">
 
 <br><br>
 
-<p>Step 3: Click Sort to put the numbers in order from smallest to largest.</p>
+<h3>Step 2: Show Your Numbers</h3>
 
-<input type=button value="Sort Numbers" onclick="{
-  for (let myLoop = 0; myLoop < myMax - 1; myLoop++){
-     for (let myLoop2 = 0; myLoop2 < myMax - 1 - myLoop; myLoop2++){
-        if (myCards[myLoop2] > myCards[myLoop2 + 1]){
-           let myTemp = myCards[myLoop2]
-           myCards[myLoop2] = myCards[myLoop2 + 1]
-           myCards[myLoop2 + 1] = myTemp
-        }
-     }
-  }
-  document.getElementById('myDiv01').innerHTML = 'Numbers have been sorted! Click Show Numbers to see the results.'
-}">
+<input type="button" value="Show Numbers" onclick="myShowNumbers()">
+
+<input type="button" value="Shuffle Numbers" onclick="myShuffle()">
 
 <br><br>
 
-<p>Step 4: Check your results below.</p>
+<h3>Step 3: Choose a Sorting Method</h3>
 
-<div id="myDiv01">Your numbers will show up here.</div>
+<input type="button" value="Smallest to Largest" onclick="mySortAscending()">
+
+<input type="button" value="Largest to Smallest" onclick="mySortDescending()">
+
+<input type="button" value="Sort And Show" onclick="mySortAndShow()">
+
+<br><br>
+
+<h3>Step 4: Number Tools</h3>
+
+<input type="button" value="Find Min and Max" onclick="myFindMinMax()">
+
+<input type="button" value="Calculate Statistics" onclick="myStatistics()">
+
+<input type="button" value="Remove Duplicates" onclick="myRemoveDuplicates()">
+
+<br><br>
+
+<h3>Step 5: Search for a Number</h3>
+
+<input type="number" id="mySearchBox" placeholder="Enter a number">
+
+<input type="button" value="Search" onclick="mySearch()">
+
+<br><br>
+
+<h3>Step 6: Your Results</h3>
+
+<div id="myDiv01">
+Your numbers will show up here.
+</div>
 
 <br>
 
-<input type=button value="Sort And Show" onclick="{
-  for (let myLoop = 0; myLoop < myMax - 1; myLoop++){
-     for (let myLoop2 = 0; myLoop2 < myMax - 1 - myLoop; myLoop2++){
-        if (myCards[myLoop2] > myCards[myLoop2 + 1]){
-           let myTemp = myCards[myLoop2]
-           myCards[myLoop2] = myCards[myLoop2 + 1]
-           myCards[myLoop2 + 1] = myTemp
-        }
-     }
-  }
-  let myTemp = ''
-  for (let myLoop = 0; myLoop < myMax; myLoop++){
-     myTemp += myLoop + ' = ' + myCards[myLoop] + '<br>'
-  }
-  document.getElementById('myDiv01').innerHTML = myTemp
-}">
+<input type="button" value="Reset Numbers" onclick="myReset()">
 
 <br><br>
 
-<input type=button value="Reset Numbers" onclick="{
-  for (let myLoop = 0; myLoop < myMax; myLoop++){
-     myCards[myLoop] = 0
-  }
-  document.getElementById('myDiv01').innerHTML = 'Numbers reset! Click Set Random to start again.'
-}">
+<h3>Why is sorting useful?</h3>
 
-<p>Why is sorting useful?</p>
-<p>Sorting helps organize numbers so they are easier to read and compare. This program uses a bubble sort to move numbers into the correct order.</p>
+<p>Sorting helps organize numbers so they are easier to read and compare. This program uses bubble sort to move numbers into the correct order.</p>
+
+<h3>What I Learned</h3>
+
+<p>I learned how to use arrays to store numbers and how loops can compare different values.</p>
+
+<p>I also learned how bubble sort works by comparing two numbers and switching them if they are in the wrong order.</p>
+
+<p>My favourite part of this project is being able to sort numbers in different ways and calculate statistics.</p>
 
 <p>Thanks for trying my sorting program!</p>
+
+</body>
+</html>
