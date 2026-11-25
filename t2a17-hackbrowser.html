@@ -1,183 +1,266 @@
 
-<body bgcolor="#81F7F3">
-<br>
-
-<h1 align=center>t2a17-Hackbrowser</h1>
-<h2 align=center><b>Browser Hack by Fred</b></h2>
-<h2 align=center>Explore Your Browser!</h2>
-
-Object Sort Base
-
-<html xmlns:v="urn:schemas-microsoft-com:vml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Moving Objects</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Moving Objects - Hackbrowser</title>
 
 <style>
- v\:* {BEHAVIOR: url(#default#VML)}
+    body {
+        background-color: #81F7F3;
+        font-family: Arial, sans-serif;
+        margin: 15px;
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    h3 {
+        margin-top: 25px;
+    }
+
+    p {
+        line-height: 1.5;
+    }
+
+    input[type="button"] {
+        margin: 4px;
+        padding: 7px 12px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    input[type="button"]:hover {
+        background-color: #d5ffff;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: 14px;
+        padding: 8px;
+        max-width: 100%;
+    }
+
+    input[type="text"] {
+        padding: 6px;
+        max-width: 95%;
+    }
+
+    #move1 {
+        position: absolute;
+        left: 600px;
+        top: 560px;
+        width: 400px;
+        height: 200px;
+        max-width: 90%;
+    }
+
+    .back-button {
+        font-size: 25px !important;
+        padding: 8px 20px !important;
+    }
 </style>
 
 <script>
+    // Browser object information
+    document.name = "myDocument";
+    window.name = "myWindow";
 
-document.name = "myDocument"
-window.name = "myWindow"
-document.cookie = "cookieName=fred"
+    document.cookie = "cookieName=fred";
 
-var splitIndex = 0;
-var splitArray = new Array();
+    let counter = 0;
 
-function splits(string,text) {
-    var strLength = string.length, txtLength = text.length;
-    if ((strLength == 0) || (txtLength == 0)) return;
-
-    var i = string.indexOf(text);
-    if ((!i) && (text != string.substring(0,txtLength))) return;
-    if (i == -1) {
-        splitArray[splitIndex++] = string;
-        return;
+    // Get the form elements
+    function getResults() {
+        return document.forms["myForm"].elements["myTextarea"];
     }
 
-    splitArray[splitIndex++] = string.substring(0,i);
+    function getObjectName(object) {
+        if (object === window) return "Window";
+        if (object === document) return "Document";
+        if (object === navigator) return "Navigator";
+        if (object === screen) return "Screen";
 
-    if (i+txtLength < strLength)
-        splits(string.substring(i+txtLength,strLength),text);
+        return object.name || object.id || object.constructor?.name || "Browser Object";
+    }
 
-    return;
-}
+    // Explore browser objects
+    function myObjectData(myObject) {
+        const results = getResults();
+        const title = document.getElementById("selectedObject");
 
-function split(string,text) {
-    splitIndex = 0;
-    splits(string,text);
-}
+        results.value = "";
 
-function join(arrayName) {
-    var temp = '';
-    for (var i=0; i<splitIndex; i++)
-        temp += arrayName[i] + '\n';
-    if (escape(temp.substring(0,1)) == '%0A')
-        return temp.substring(1,temp.length);
-    else
-        return temp;
-}
+        if (myObject == null) {
+            title.value = "Unavailable Object";
+            results.value = "This object is not available in your browser.";
+            return;
+        }
 
-function sort(arrayName) {
-    for (var i=0; i<(splitIndex-1); i++)
-        for (var j=i+1; j<splitIndex; j++)
-            if (arrayName[j] < arrayName[i]) {
-                var dummy = arrayName[i];
-                arrayName[i] = arrayName[j];
-                arrayName[j] = dummy;
+        const objectName = getObjectName(myObject);
+        title.value = objectName;
+
+        const properties = [];
+
+        try {
+            for (const prop in myObject) {
+                try {
+                    let value = myObject[prop];
+
+                    if (typeof value === "function") {
+                        value = "[Function]";
+                    } else if (typeof value === "object" && value !== null) {
+                        value = "[Object]";
+                    }
+
+                    properties.push(objectName + "." + prop + " = " + value);
+                } catch (error) {
+                    properties.push(objectName + "." + prop + " = [Cannot access]");
+                }
             }
-}
 
-function sorttext() {
-    split(document.myForm.myTextarea.value,'\n');
-    sort(splitArray);
-    document.myForm.myTextarea.value = join(splitArray);
-}
+            properties.sort((a, b) =>
+                a.toLowerCase().localeCompare(b.toLowerCase())
+            );
 
-function myObjectData(myObject){
+            results.value = properties.join("\n");
 
- window.status = 'Please Wait'
+            if (properties.length === 0) {
+                results.value = "No accessible properties found.";
+            }
 
- document.myForm.myText1.value = ''
- document.myForm.myTextarea.value = ''
-
- if (myObject == null){
-    document.myForm.myTextarea.value = 'This object is not available in your browser.'
-    return
- }
-
- myLoop = 0
-
- for (var prop in myObject){
-    myLoop+=1
-    document.myForm.myTextarea.value+=myObject.name+'.'+prop+'='+myObject[prop]+ '\n'
-
-    if (myLoop % 3 == 1){
-       window.status += '.'
+        } catch (error) {
+            results.value = "Unable to explore this object: " + error.message;
+        }
     }
- }
 
- document.myForm.myText1.value = myObject.name || 'Browser Object'
+    // Sort text alphabetically
+    function sorttext() {
+        const results = getResults();
 
- window.status += 'Loaded'
+        results.value = results.value
+            .split("\n")
+            .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+            .join("\n");
+    }
 
- sorttext()
+    // Move and animate image
+    function moreAnimations() {
+        counter++;
 
- window.status += 'Sorted.'
-}
+        const myPic = document.getElementById("move1");
 
-document.counter = 0
+        let left = parseFloat(myPic.style.left) || 600;
+        let top = parseFloat(myPic.style.top) || 560;
+        let height = parseFloat(myPic.style.height) || 200;
 
-function moreAnimations(){
-  document.counter+=1
+        myPic.style.left = (left + 2) + "px";
+        myPic.style.top = (top + 1) + "px";
 
-  let myPic = document.getElementById('move1')
+        if (counter > 10 && counter < 20) {
+            myPic.style.height = (height + 2) + "px";
+        }
 
-  myPic.style.left = (parseInt(myPic.style.left) + 2) + 'px'
-  myPic.style.top = (parseInt(myPic.style.top) + 1) + 'px'
+        if (counter >= 20) {
+            counter = 0;
+        }
+    }
 
-  if ((document.counter>10) && (document.counter<20)){
-      myPic.style.height=parseInt(myPic.style.height)+2
-  }
-}
+    // Clear all text areas
+    function myClear() {
+        document.getElementById("selectedObject").value = "";
+        getResults().value = "";
 
-function myClear(){
-   document.myForm.myText1.value = ''
-   document.myForm.myTextarea.value = ''
-   document.myForm2.myTextarea.value = ''
-   alert('Everything has been cleared!')
-}
+        document.getElementById("testArea").value = "";
+        document.getElementById("testInput").value = "";
 
-function myShowInfo(){
-   document.myForm.myTextarea.value =
-   'Browser: ' + navigator.appName +
-   '\nVersion: ' + navigator.appVersion +
-   '\nLanguage: ' + navigator.language +
-   '\nPlatform: ' + navigator.platform +
-   '\nCookies Enabled: ' + navigator.cookieEnabled
-}
+        alert("Everything has been cleared!");
+    }
 
-function myShowScreen(){
-   document.myForm.myTextarea.value =
-   'Screen Width: ' + screen.width +
-   '\nScreen Height: ' + screen.height +
-   '\nAvailable Width: ' + screen.availWidth +
-   '\nAvailable Height: ' + screen.availHeight
-}
+    // Show browser information
+    function myShowInfo() {
+        getResults().value =
+            "Browser: " + navigator.appName +
+            "\nVersion: " + navigator.appVersion +
+            "\nLanguage: " + navigator.language +
+            "\nPlatform: " + navigator.platform +
+            "\nCookies Enabled: " + navigator.cookieEnabled +
+            "\nOnline: " + navigator.onLine +
+            "\nUser Agent: " + navigator.userAgent;
+    }
 
-function myShowTime(){
-   document.myForm.myTextarea.value =
-   'Current Date and Time: ' + new Date()
-}
+    // Show screen information
+    function myShowScreen() {
+        getResults().value =
+            "Screen Width: " + screen.width +
+            "\nScreen Height: " + screen.height +
+            "\nAvailable Width: " + screen.availWidth +
+            "\nAvailable Height: " + screen.availHeight +
+            "\nColor Depth: " + screen.colorDepth +
+            "\nPixel Depth: " + screen.pixelDepth;
+    }
 
+    // Show current date and time
+    function myShowTime() {
+        getResults().value =
+            "Current Date and Time: " + new Date().toLocaleString();
+    }
+
+    // Show page title and names
+    function myShowTitle() {
+        getResults().value =
+            "Page Title: " + document.title +
+            "\nDocument Name: " + document.name +
+            "\nWindow Name: " + window.name;
+    }
 </script>
 </head>
 
 <body>
 
+<h1>t2a17-Hackbrowser</h1>
+<h2><b>Browser Hack by Fred</b></h2>
+<h2>Explore Your Browser!</h2>
+
+Object Sort Base
+
 <h3>Instructions t2a17-Hackbrowser</h3>
 
-<p>Welcome to my browser hacking project! This page lets you explore different browser objects and see what information they contain.</p>
+<p>
+Welcome to my browser hacking project! This page lets you explore
+different browser objects and see what information they contain.
+</p>
 
-<p>Use the buttons below to check out different objects. The results will appear in the large text box. You can also sort the results alphabetically.</p>
+<p>
+Use the buttons below to check out different objects.
+The results will appear in the large text box.
+You can also sort the results alphabetically.
+</p>
 
-<p>Different browsers may show different results. This is a way to learn how browsers work and how JavaScript can access their information.</p>
+<p>
+Different browsers may show different results.
+This is a way to learn how browsers work and how JavaScript
+can access their information.
+</p>
 
 <br>
 
-<img id="move1" style="position:absolute;left:600px;top:560px"
+<img id="move1"
 src="https://placehold.co/400x200/222222/ffffff?text=Browser+Explorer"
-width="400" height="200">
+alt="Browser Explorer Image">
 
 <form name="myForm2">
 
-  <p>Test area: Write something here.</p>
+    <p>Test area: Write something here.</p>
 
-  <textarea name="myTextarea">wow</textarea>
+    <textarea id="testArea" rows="4" cols="40">wow</textarea>
 
-  <input type=text name="myText1" id="myText2" size=50 value=""><br>
+    <br><br>
+
+    <input type="text" id="testInput" size="50" value="">
 
 </form>
 
@@ -187,59 +270,87 @@ width="400" height="200">
 
 <form name="myForm">
 
-<input type=text name="myText1" size=50 value="Selected object will show here"><br><br>
+<input type="text" id="selectedObject" size="50"
+placeholder="Selected object will show here" readonly>
 
-<input type=button value="1 Window" onclick="{myObjectData(window)}">
+<br><br>
 
-<input type=button value="2 Document" onclick="{myObjectData(document)}">
+<input type="button" value="1 Window"
+onclick="myObjectData(window)">
 
-<input type=button value="3 document.myForm2" onclick="{myObjectData(document.myForm2)}">
+<input type="button" value="2 Document"
+onclick="myObjectData(document)">
 
-<input type=button value="4 Textarea" onclick="{myObjectData(document.myForm2.myTextarea)}">
+<input type="button" value="3 document.myForm2"
+onclick="myObjectData(document.forms.myForm2)">
 
-<input type=button value="5 Window Location" onclick="{myObjectData(window.location)}">
+<input type="button" value="4 Textarea"
+onclick="myObjectData(document.getElementById('testArea'))">
 
-<input type=button value="6 Window Parent" onclick="{myObjectData(window.parent)}">
+<input type="button" value="5 Window Location"
+onclick="myObjectData(window.location)">
 
-<input type=button value="7 Browser Navigator" onclick="{myObjectData(navigator)}">
+<input type="button" value="6 Window Parent"
+onclick="myObjectData(window.parent)">
 
-<input type=button value="8 Image Style" onclick="{myObjectData(document.getElementById('move1').style)}">
+<input type="button" value="7 Browser Navigator"
+onclick="myObjectData(navigator)">
 
-<input type=button value="9 Screen" onclick="{myObjectData(screen)}">
+<input type="button" value="8 Image Style"
+onclick="myObjectData(document.getElementById('move1').style)">
 
-<input type=button value="10 Image Object" onclick="{myObjectData(document.getElementById('move1'))}">
+<input type="button" value="9 Screen"
+onclick="myObjectData(screen)">
 
-<input type=button value="11 Local Storage" onclick="{myObjectData(window.localStorage)}">
+<input type="button" value="10 Image Object"
+onclick="myObjectData(document.getElementById('move1'))">
 
-<input type=button value="12 Browser History" onclick="{myObjectData(window.history)}">
+<input type="button" value="11 Local Storage"
+onclick="myObjectData(window.localStorage)">
 
-<input type=button value="13 Text Input" onclick="{myObjectData(document.myForm2.myText1)}">
+<input type="button" value="12 Browser History"
+onclick="myObjectData(window.history)">
 
-<input type=button value="14 Get Element" onclick="{myObjectData(document.getElementById('myText2'))}">
+<input type="button" value="13 Text Input"
+onclick="myObjectData(document.getElementById('testInput'))">
 
-<input type=button value="15 Browser Information" onclick="{myShowInfo()}">
+<input type="button" value="14 Get Element"
+onclick="myObjectData(document.getElementById('selectedObject'))">
 
-<input type=button value="16 Screen Information" onclick="{myShowScreen()}">
+<input type="button" value="15 Browser Information"
+onclick="myShowInfo()">
 
-<input type=button value="17 Current Time" onclick="{myShowTime()}">
+<input type="button" value="16 Screen Information"
+onclick="myShowScreen()">
 
-<input type=button value="18 Clear Results" onclick="{myClear()}">
+<input type="button" value="17 Current Time"
+onclick="myShowTime()">
 
-<input type=button value="19 Move Image" onclick="{moreAnimations()}">
+<input type="button" value="18 Clear Results"
+onclick="myClear()">
 
-<input type=button value="20 Show Page Title" onclick="{
-   document.myForm.myTextarea.value = 'Page Title: ' + document.title +
-   '\nDocument Name: ' + document.name +
-   '\nWindow Name: ' + window.name
-}">
+<input type="button" value="19 Move Image"
+onclick="moreAnimations()">
+
+<input type="button" value="20 Show Page Title"
+onclick="myShowTitle()">
 
 <br><br>
 
 <h3>Browser Object Results</h3>
 
-<p>The information from the buttons will appear below. Try different buttons and compare the results!</p>
+<p>
+The information from the buttons will appear below.
+Try different buttons and compare the results!
+</p>
 
-<textarea name="myTextarea" rows=20 cols=70 wrap></textarea>
+<textarea name="myTextarea" rows="20" cols="70"
+wrap="soft" placeholder="Browser object results will appear here..."></textarea>
+
+<br><br>
+
+<input type="button" value="Sort Results A-Z"
+onclick="sorttext()">
 
 </form>
 
@@ -247,11 +358,21 @@ width="400" height="200">
 
 <h3>My Thoughts</h3>
 
-<p>I learned that JavaScript can access different browser objects like window, document, navigator and screen. Each object has its own properties and methods.</p>
+<p>
+I learned that JavaScript can access different browser objects
+like window, document, navigator and screen.
+Each object has its own properties and methods.
+</p>
 
-<p>I also learned that different browsers can show different information depending on what they support.</p>
+<p>
+I also learned that different browsers can show different
+information depending on what they support.
+</p>
 
-<p>My favourite part of this project is being able to click buttons and see information about the browser.</p>
+<p>
+My favourite part of this project is being able to click
+buttons and see information about the browser.
+</p>
 
 <br>
 
@@ -259,8 +380,9 @@ At the bottom of every page make sure you include the following button:
 
 <br><br>
 
-<input type=button value="Back" style="font-size:25px"
-onclick="{window.history.back()}">
+<input type="button" value="Back"
+class="back-button"
+onclick="window.history.back()">
 
 <br><br>
 
